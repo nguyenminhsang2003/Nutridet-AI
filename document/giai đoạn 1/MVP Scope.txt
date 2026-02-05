@@ -1,0 +1,78 @@
+Mục tiêu giai đoạn 1 (MVP):
+- Có một prototype chạy được từ đầu đến cuối: upload/chụp ảnh → backend xử lý → trả về “Health Invoice” + lưu lịch sử theo ngày.
+- Tập trung vào trải nghiệm và thay đổi nhận thức (Emotion > Precision), không tối ưu độ chính xác tuyệt đối hay khả năng scale lớn.
+
+Phạm vi chức năng:
+1. AI Scan:
+   - Cho phép người dùng upload/chọn ảnh thực phẩm (packaged food, beverages, basic meals).
+   - AI hoặc mock service trả về: tên món, calories ước tính, gram đường ước tính (và có thể thêm fat_grams nếu cần).
+
+2. Debt Engine (backend):
+   - Input: calories, sugar_grams (và optional: fat_grams).
+   - Output: Sugar Cube Equivalent, Workout Debt (thời gian vận động cần thiết), Health Damage Score (thang điểm đơn giản).
+   - Toàn bộ logic quy đổi được cài đặt ở backend (C#), AI chỉ dùng để extract dữ liệu thô.
+
+3. Health Invoice:
+   - Sau mỗi lần scan, trả về một “hóa đơn sức khỏe” hiển thị:
+     + Tên món/thực phẩm.
+     + Số viên đường tương đương (Sugar Cube Equivalent).
+     + Thời gian vận động cần thiết (Workout Debt).
+     + Health Damage Score.
+     + 1–2 câu feedback mang tính cảnh báo nhẹ/hài hước/phê bình thân thiện.
+
+4. Daily Debt Ledger:
+   - Lưu lịch sử các lần scan (có thể tạm thời cho 1 user mặc định).
+   - Màn hình/tính năng tổng quan theo ngày:
+     + Tổng số sugar cubes trong ngày.
+     + Tổng Workout Debt trong ngày.
+   - Có thể hiển thị danh sách các món đã scan trong ngày, tuần, tháng (phiên bản đơn giản, chưa cần biểu đồ phức tạp).
+
+Mức hoàn thiện kỹ thuật mong muốn:
+- Backend: có API tối thiểu:
+  + POST /scan: nhận ảnh → gọi AI/mock → Debt Engine → trả về Health Invoice.
+  + GET /daily-ledger?date=...: trả về tổng nợ sức khỏe trong ngày.
+- Frontend (web hoặc mobile – chọn 1 cho MVP):
+  + Màn upload/chụp ảnh.
+  + Màn Health Invoice.
+  + Màn Daily Debt Ledger đơn giản.
+
+Những phần chưa làm trong giai đoạn 1:
+- Đăng nhập/đăng ký phức tạp (có thể dùng 1 user mặc định).
+- Gamification, social sharing, wearable integration.
+- Tối ưu hiệu năng, hạ tầng cho scale lớn, CI/CD phức tạp.
+
+Checklist thực thi giai đoạn 1:
+
+- [ ] **Backend / API cơ bản**
+  - [ ] Khởi tạo project backend (ví dụ ASP.NET Core) cho `nutridet-ai-api`.
+  - [ ] Thiết kế cấu trúc thư mục (layer cho controller, service, Debt Engine, AI client, persistence).
+  - [ ] Cài đặt endpoint `POST /scan` nhận ảnh (hoặc URL ảnh).
+  - [ ] Tạo lớp Debt Engine với hàm tính:
+        - [ ] Sugar Cube Equivalent.
+        - [ ] Workout Debt (phút vận động).
+        - [ ] Health Damage Score.
+  - [ ] Tạm thời dùng mock hoặc tích hợp API AI (ví dụ OpenAI) để trả về: tên món, calories, sugar_grams.
+  - [ ] Cài đặt endpoint `GET /daily-ledger?date=...` trả về tổng sugar cubes, tổng Workout Debt, danh sách món trong ngày.
+  - [ ] Lưu lịch sử scan (in-memory hoặc DB đơn giản như SQLite).
+
+- [ ] **Frontend (chọn web hoặc mobile cho MVP)**
+  - [ ] Khởi tạo project `nutridet-ai-web` (ví dụ React/Next.js) hoặc `nutridet-ai-mobile` (React Native/Flutter).
+  - [ ] Màn hình upload/chụp ảnh:
+        - [ ] Cho phép chọn ảnh từ máy/thiết bị.
+        - [ ] Gửi ảnh lên endpoint `POST /scan`.
+  - [ ] Màn hình Health Invoice:
+        - [ ] Hiển thị tên món, sugar cubes, Workout Debt, Health Damage Score.
+        - [ ] Hiển thị 1–2 câu feedback “cảnh báo nhẹ/hài hước”.
+  - [ ] Màn hình Daily Debt Ledger:
+        - [ ] Gọi `GET /daily-ledger`.
+        - [ ] Hiển thị tổng sugar cubes, tổng Workout Debt trong ngày.
+        - [ ] Liệt kê các món đã scan trong ngày.
+
+- [ ] **Sản phẩm & trải nghiệm**
+  - [ ] Xác định set câu feedback mẫu (tone: thân thiện, hài hước, cảnh báo nhẹ).
+  - [ ] Chọn icon/màu sắc cơ bản cho sugar cubes và cảnh báo.
+  - [ ] Test nội bộ với vài món demo (trà sữa, nước ngọt, đồ ăn nhanh) để xem cảm giác “nợ sức khỏe” có đủ mạnh chưa.
+
+- [ ] **Dọn dẹp & ghi chú**
+  - [ ] Cập nhật README mô tả cách chạy backend và frontend.
+  - [ ] Ghi lại các giả định (ví dụ: quy đổi calories → phút chạy bộ) để sau này có thể tinh chỉnh.

@@ -1,0 +1,307 @@
+# 📌 NutriDebt AI – Product Concept Document
+
+---
+
+# 1. Product Overview
+
+**NutriDebt AI** là một ứng dụng sức khỏe ứng dụng AI nhằm thay đổi hành vi ăn uống bằng cách chuyển đổi dữ liệu dinh dưỡng trừu tượng thành những hình ảnh trực quan và “chi phí vật lý” dễ cảm nhận.
+
+Thay vì hiển thị các con số khó hiểu như calories hay grams đường, NutriDebt AI giúp người dùng nhận thức rõ hậu quả của lựa chọn thực phẩm thông qua các phép quy đổi gây tác động mạnh về thị giác và cảm xúc — ví dụ:
+
+* “Ly trà sữa này tương đương 9 viên đường.”
+* “Bạn cần chạy bộ 38 phút để đốt lượng calories này.”
+
+Mục tiêu của sản phẩm không chỉ là theo dõi dinh dưỡng mà là **tạo ra nhận thức tức thời để thúc đẩy thay đổi hành vi.**
+
+---
+
+# 2. Problem Statement
+
+Các ứng dụng sức khỏe hiện tại đang gặp ba vấn đề cốt lõi:
+
+## 2.1 Cognitive Gap – Khoảng cách nhận thức
+
+Người dùng khó hình dung tác động thực tế của các chỉ số dinh dưỡng.
+
+Ví dụ:
+
+* 40g đường → không tạo phản ứng cảm xúc
+* 8 viên đường → gây “shock”
+
+Con người phản ứng với **hình ảnh**, không phải số liệu.
+
+---
+
+## 2.2 Input Friction – Rào cản nhập liệu
+
+Việc nhập tay từng món ăn khiến phần lớn người dùng bỏ cuộc sớm.
+
+Nhiều nghiên cứu về health-tech cho thấy:
+
+👉 phần lớn người dùng ngừng tracking sau 1–2 tuần.
+
+Nguyên nhân chính: **quá tốn công sức.**
+
+---
+
+## 2.3 Hidden Nutritional Risk – Thành phần ẩn
+
+Người dùng gần như không thể ước tính:
+
+* lượng đường trong đồ uống pha chế
+* dầu mỡ trong món ăn ngoài
+* calories của thực phẩm không nhãn
+
+=> dẫn đến việc **đánh giá sai mức độ “tổn hại sức khỏe”.**
+
+---
+
+## 2.4 Lack of Consequence Awareness – Thiếu nhận thức về “cái giá phải trả”
+
+Con người thường ưu tiên khoái cảm ngắn hạn và bỏ qua hậu quả dài hạn.
+
+Nếu hậu quả được “hiện hình”, hành vi có thể thay đổi ngay lập tức.
+
+---
+
+# 3. Product Vision
+
+**NutriDebt AI hướng tới trở thành một “Health Reality Mirror” — tấm gương phản chiếu hậu quả thực sự của mỗi lựa chọn thực phẩm.**
+
+Sản phẩm không cạnh tranh bằng độ chính xác tuyệt đối, mà bằng khả năng:
+
+👉 tạo nhận thức
+👉 kích hoạt cảm xúc
+👉 thúc đẩy thay đổi hành vi
+
+---
+
+# 4. Core Solution
+
+## 4.1 Visual Shock Engine
+
+Chuyển đổi dữ liệu dinh dưỡng thành các biểu tượng vật lý:
+
+* Sugar Cube Equivalent
+* Fat Stack Visualization
+* Workout Time Debt
+* Physical Activity Cost
+
+Mục tiêu: biến dữ liệu thành thứ người dùng **cảm nhận được**, không chỉ đọc.
+
+---
+
+## 4.2 AI Vision-First Experience
+
+Người dùng chỉ cần chụp ảnh:
+
+👉 nhãn thực phẩm
+👉 đồ uống
+👉 món ăn
+
+Hệ thống AI đa phương thức sẽ:
+
+* nhận diện thực phẩm
+* trích xuất thông tin dinh dưỡng
+* trả về dữ liệu có cấu trúc
+
+=> giảm gần như toàn bộ ma sát nhập liệu.
+
+---
+
+## 4.3 Emotional AI Feedback
+
+Thay vì phản hồi trung tính, hệ thống sử dụng giọng văn mang tính:
+
+* cảnh báo nhẹ
+* hài hước
+* “phê bình thân thiện”
+
+Ví dụ:
+
+> “Món này ngon thật… nhưng cơ thể bạn sẽ phải làm việc hơi vất vả đấy.”
+
+Cách tiếp cận này giúp tăng **engagement và retention.**
+
+---
+
+# 5. Core Features (MVP Scope)
+
+## ✅ AI Scanner
+
+Phân tích hình ảnh thực phẩm:
+
+* Packaged food
+* Beverages
+* Basic meals
+
+---
+
+## ✅ Debt Engine
+
+Thuật toán backend quy đổi dinh dưỡng thành các chỉ số dễ cảm nhận:
+
+* Sugar Cube Equivalent
+* Workout Debt
+* Health Damage Score
+
+**Lưu ý kiến trúc:**
+AI chỉ extract dữ liệu — business logic phải nằm ở backend để đảm bảo tính nhất quán.
+
+---
+
+## ✅ Health Invoice
+
+Sau mỗi lần scan, người dùng nhận một “hóa đơn sức khỏe” gồm:
+
+* lượng đường
+* calories
+* thời gian vận động cần thiết
+* điểm tác động sức khỏe
+
+Trải nghiệm này tạo cảm giác “trả giá” ngay lập tức.
+
+---
+
+## ✅ Daily Debt Ledger
+
+Bảng theo dõi tổng “khoản nợ sức khỏe” theo:
+
+* ngày
+* tuần
+* tháng
+
+Giúp người dùng nhìn thấy xu hướng hành vi.
+
+---
+
+## ✅ Smart Suggestions
+
+Khi phát hiện thực phẩm có rủi ro cao, hệ thống gợi ý lựa chọn thay thế “ít nợ” hơn.
+
+Ví dụ:
+
+> “Bạn có thể giảm 60% lượng đường nếu chọn phiên bản ít ngọt.”
+
+---
+
+# 6. System Architecture
+
+NutriDebt AI vận hành theo pipeline khép kín:
+
+### Input Layer
+
+Mobile/Web App gửi ảnh.
+
+### Classification Layer
+
+Backend .NET xác định loại input.
+
+### AI Intelligence Layer
+
+Multimodal AI bóc tách dữ liệu → JSON.
+
+### Logic Transformation Layer
+
+C# xử lý:
+
+* quy đổi dinh dưỡng
+* tính health score
+* tạo debt metrics
+
+### Persistence Layer
+
+Lưu trữ lịch sử để phân tích hành vi.
+
+### Presentation Layer
+
+Trả về “Health Invoice” trực quan.
+
+---
+
+# 7. Key Differentiators
+
+NutriDebt AI không phải là calorie tracker.
+
+Điểm khác biệt nằm ở:
+
+👉 Behavior-first design
+👉 Emotion-driven feedback
+👉 Visualized consequences
+👉 Ultra-low friction logging
+
+Sản phẩm cạnh tranh bằng **tâm lý học hành vi**, không chỉ công nghệ.
+
+---
+
+# 8. MVP Strategy
+
+Ưu tiên launch sớm với tập feature nhỏ nhưng tạo tác động mạnh:
+
+**MVP chỉ cần:**
+
+* AI scan
+* sugar visualization
+* workout debt
+* daily tracking
+
+👉 Speed quan trọng hơn độ hoàn hảo.
+
+---
+
+# 9. Risks & Mitigation
+
+## AI Recognition Accuracy
+
+Food recognition khó đạt 100%.
+
+**Giải pháp:**
+Cho phép chỉnh sửa nhanh thay vì cố hoàn hảo.
+
+---
+
+## Over-Quantification
+
+Quá nhiều số liệu làm giảm cảm xúc.
+
+**Nguyên tắc:**
+Emotion > Precision.
+
+---
+
+## User Fatigue
+
+Feedback quá tiêu cực có thể gây phản tác dụng.
+
+Cần giữ giọng điệu cân bằng.
+
+---
+
+# 10. Future Expansion (Post-MVP)
+
+* Weekly Damage Report
+* Weight Projection
+* Gamification
+* Social sharing
+* Wearable integration
+
+---
+
+# ⭐ Strategic Positioning
+
+NutriDebt AI nằm giữa:
+
+👉 Health-tech
+👉 Behavioral psychology
+👉 AI consumer apps
+
+Đây là khu vực có tiềm năng tăng trưởng mạnh.
+
+---
+
+# ✅ Final Statement
+
+NutriDebt AI không chỉ giúp người dùng biết họ đang ăn gì —
+mà giúp họ **hiểu cái giá của mỗi lựa chọn.**
+
+Sứ mệnh của sản phẩm là biến những hậu quả vô hình thành thứ không thể phớt lờ.
