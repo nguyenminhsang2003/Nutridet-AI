@@ -8,7 +8,7 @@
         <div class="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-8 hover:border-indigo-500 transition-colors">
           <input 
             type="file"
-            accept="image/*"
+            accept="image/jpeg,image/jpg,image/png,.jpg,.jpeg,.png"
             (change)="onFileSelected($event)"
             class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 cursor-pointer" />
         </div>
@@ -16,16 +16,36 @@
         <!-- Upload Button -->
         <button 
           (click)="upload()" 
-          [disabled]="!selectedFile"
+          [disabled]="!selectedFile || isLoading"
           class="w-full py-3 px-4 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors">
-          Upload
+          <span *ngIf="!isLoading">Upload</span>
+          <span *ngIf="isLoading" class="flex items-center justify-center">
+            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Đang xử lý...
+          </span>
         </button>
+
+        <!-- Error Message -->
+        <div *ngIf="error" class="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+          <p class="text-red-800 font-medium">Lỗi: {{ error }}</p>
+        </div>
 
         <!-- Preview -->
         <div *ngIf="previewUrl" class="mt-6">
           <h3 class="text-lg font-semibold text-gray-700 mb-4">Preview:</h3>
           <div class="flex justify-center">
             <img [src]="previewUrl" alt="Preview" class="max-w-full h-auto rounded-lg shadow-md" />
+          </div>
+        </div>
+
+        <!-- Result -->
+        <div *ngIf="resultHtml" class="mt-6">
+          <h3 class="text-lg font-semibold text-gray-700 mb-4">Kết quả phân tích:</h3>
+          <div class="bg-gray-50 border border-gray-200 rounded-lg p-6 markdown-content">
+            <div [innerHTML]="resultHtml" class="prose prose-sm max-w-none"></div>
           </div>
         </div>
       </div>

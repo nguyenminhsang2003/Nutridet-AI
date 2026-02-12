@@ -1,16 +1,30 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, catchError, throwError } from 'rxjs';
+import { ScanResponse, ScanErrorResponse } from '../models/scan-response.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ScanService {
+  private readonly http = inject(HttpClient);
+  private readonly baseUrl = environment.apiUrl;
 
-  private baseUrl = 'https://localhost:7200/api';
+  uploadImage(formData: FormData, userId: number): Observable<ScanResponse> {
+    const url = `${this.baseUrl}/scan-image/upload?userId=${userId}`;
+    return this.http.post<ScanResponse>(url, formData).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => this.extractErrorMessage(error));
+      })
+    );
+  }
 
-  constructor(private http: HttpClient) {}
-
-  uploadImage(formData: FormData) {
-    return this.http.post(`${this.baseUrl}/upload`, formData);
+  private extractErrorMessage(error: HttpErrorResponse): string {
+    if (error.error) {
+      const errorResponse = error.error as ScanErrorResponse;
+      return errorResponse.message || errorResponse.error || error.message;
+    }
+    return error.message || 'Có lỗi xảy ra khi upload ảnh';
   }
 }

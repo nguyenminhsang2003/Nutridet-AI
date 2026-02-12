@@ -1,8 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using nutridet_ai_api.Models;
+using nutridet_ai_api.Repositories;
+using nutridet_ai_api.Repositories.IRepositories;
 using nutridet_ai_api.Services;
 using nutridet_ai_api.Services.IService;
-using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,22 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddHttpClient();
 
+// Add CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngularApp", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200", "https://localhost:4200")
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
+    });
+});
+
+// Register Repositories (Repositories Layer)
+builder.Services.AddScoped<IScanImageRepository, ScanImageRepository>();
+builder.Services.AddScoped<IAiRawOutputRepository, AiRawOutputRepository>();
+
 // Register Services (Service Layer)
 builder.Services.AddScoped<IScanImageService, ScanImageService>();
 builder.Services.AddScoped<IGeminiService, GeminiService>();
@@ -33,6 +50,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("AllowAngularApp");
 
 app.UseHttpsRedirection();
 

@@ -2,6 +2,6 @@
 {
     public interface IScanImageService
     {
-        Task<string> ScanImageAsync(string imageString);
+        Task<string> ScanImageAsync(string imageBase64, int userId);
     }
 }

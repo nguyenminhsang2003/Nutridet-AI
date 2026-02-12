@@ -1,0 +1,68 @@
+### ✅ FE CLEAN CHECKLIST (Angular)
+
+#### 📁 Cấu trúc
+
+* [ ] `core / shared / features` rõ ràng
+* [ ] Mỗi màn hình = 1 feature
+* [ ] Không import chéo feature
+
+#### 🧠 Trách nhiệm
+
+* [ ] Component không gọi API trực tiếp
+* [ ] Logic nghiệp vụ nằm trong service
+* [ ] Component chỉ điều phối & bind view
+
+#### 🧹 Biến & Debug
+
+* [ ] Không `console.log`
+* [ ] Không biến debug / comment thừa
+* [ ] Không biến trung gian dư
+* [ ] Biến dùng 1 lần → inline
+* [ ] Không `any`
+* [ ] Tên biến có nghĩa
+
+#### 🧩 Function
+
+* [ ] ≤ 30 dòng
+* [ ] 1 function = 1 việc
+* [ ] Dùng early return
+* [ ] Không cờ (flag) dư
+* [ ] Không copy–paste logic
+
+#### 🔄 RxJS
+
+* [ ] Không subscribe rải rác
+* [ ] Có `takeUntil` hoặc `async`
+* [ ] Không xử lý logic trong subscribe
+* [ ] Mapping/filter trong service
+
+#### 📦 Model
+
+* [ ] Có model cho mọi API
+* [ ] Có `ApiResponse<T>`
+* [ ] Không parse data thủ công
+
+#### 🖼️ Template
+
+* [ ] Không logic phức tạp
+* [ ] Không gọi function nặng
+* [ ] HTML ≤ 200 dòng
+* [ ] Không inline style tràn lan
+
+#### 📐 Kích thước
+
+* [ ] TS ≤ 300 dòng
+* [ ] HTML ≤ 200 dòng
+* [ ] SCSS ≤ 200 dòng
+* [ ] Quá → tách component
+
+#### 🧪 Refactor
+
+* [ ] Dọn từng component
+* [ ] Commit nhỏ
+* [ ] Test sau mỗi lần dọn
+
+#### 🧠 Nguyên tắc
+
+* [ ] Dễ đọc > thông minh
+* [ ] Sạch > tối ưu sớm
