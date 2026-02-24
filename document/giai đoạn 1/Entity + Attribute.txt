@@ -1,111 +1,48 @@
 --
 CREATE
 --
+-- người dùng
 User (
     user_id UNIQUEIDENTIFIER PK,
-    email NVARCHAR(255) UNIQUE,
+    email NVARCHAR(255),
+    password NVARCHAR(255),
     name NVARCHAR(150),
     created_at DATETIME2
 )
+-- giá trị mặc định của AI
 ScanImage (
     scan_image_id UNIQUEIDENTIFIER PK,
     user_id UNIQUEIDENTIFIER FK,
     image_url NVARCHAR(500),
     ai_provider NVARCHAR(50),
+    raw_text_response NVARCHAR(MAX),
     ai_confidence DECIMAL(4,2),
     confidence_status NVARCHAR(10),
     created_at DATETIME2,
     isDelete bit
 )
-AiRawOutput (
+-- giá trị sau khi tính toán theo thể tích thực
+OutputNutrition (
     ai_raw_id UNIQUEIDENTIFIER PK,
     scan_image_id UNIQUEIDENTIFIER FK,
-    raw_text_response NVARCHAR(MAX),
-    raw_json_response NVARCHAR(MAX),
+    energy_kcal DECIMAL(4,2),
+    carbohydrate_g DECIMAL(4,2),
+    sugar_g DECIMAL(4,2),
+    protein_g DECIMAL(4,2),
+    fat_g DECIMAL(4,2),
+    saturated_fat_g DECIMAL(4,2),
+    fiber_g DECIMAL(4,2),
+    sodium_mg DECIMAL(4,2),
+    cholesterol_mg DECIMAL(4,2),
+    sodium_mg DECIMAL(4,2),
     created_at DATETIME2
 )
-//data cố định
-DamageImage (
-    damage_image_id INT IDENTITY PK,
-    image_code NVARCHAR(50),    
-    image_name NVARCHAR(50),
-    image_unit NVARCHAR(20),      
-    metric_code NVARCHAR(50) NOT NULL,    
-    metric_unit NVARCHAR(20) NOT NULL, 
-    metric_per_unit DECIMAL(10,2) NOT NULL,
-    description NVARCHAR(255)
-)
-MetricToDamage (
-    parsed_food_id UNIQUEIDENTIFIER PK,
-    ai_raw_id UNIQUEIDENTIFIER FK,
-    created_at DATETIME2
-)
-MetricToDamageDetail (
-    parsed_food_detail_id UNIQUEIDENTIFIER PK,
-    parsed_food_id UNIQUEIDENTIFIER FK,
-    damage_image_id UNIQUEIDENTIFIER FK,
-    value NVARCHAR(255),
-    created_at DATETIME2
-)
-//data cố định
-Exercise(
-	exercise_id UNIQUEIDENTIFIER PK,
-	code NVARCHAR(50),      
-	name NVARCHAR(50),
-	kcal_per_unit DECIMAL(6,2),
-	unit NVARCHAR(20),      
-	description NVARCHAR(255)
-)
-Invoice(
-	invoice_id UNIQUEIDENTIFIER PK,
-	user_id UNIQUEIDENTIFIER NOT NULL,       
-    	total_calories DECIMAL(8,2) NOT NULL,
-	created_at DATETIME2
-)
-InvoiceDetail (
-    invoice_detail_id UNIQUEIDENTIFIER PRIMARY KEY,
-    invoice_id UNIQUEIDENTIFIER NOT NULL,
-    exercise_id UNIQUEIDENTIFIER NOT NULL,
-    value_require DECIMAL(10,2) NOT NULL,
-    kcal_equivalent DECIMAL(8,2) NOT NULL
-)
+
 
 --
 INSERT
 --
 *
-INSERT INTO User (user_id, email, name, created_at)
+INSERT INTO User (user_id, name, created_at)
 VALUES
-(NEWID(), N'user1@nutridebt.ai', N'Người dùng 1', SYSDATETIME());
-
-*
-INSERT INTO Exercise (exercise_id, code, name, kcal_per_unit, unit, description)
-VALUES
-(NEWID(), 'WALK',      N'Đi bộ',      5.00,  'min', N'Đi bộ tốc độ vừa'),
-(NEWID(), 'RUN',       N'Chạy',       10.00, 'min', N'Chạy bộ liên tục'),
-(NEWID(), 'JUMP_ROPE', N'Nhảy dây',   12.00, 'min', N'Nhảy dây cường độ cao'),
-(NEWID(), 'PUSH_UP',   N'Hít đất',     0.50, 'rep', N'1 lần hít đất ≈ 0.5 kcal'),
-(NEWID(), 'PULL_UP',  N'Lên xà',      1.00, 'rep', N'1 lần kéo xà ≈ 1 kcal'),
-(NEWID(), 'SIT_UP',    N'Gập bụng',    0.30, 'rep', N'1 lần gập bụng ≈ 0.3 kcal'),
-(NEWID(), 'PLANK',     N'Plank',       0.10, 'sec', N'1 giây plank ≈ 0.1 kcal');
-
-*
-INSERT INTO DamageImage
-(image_code, image_name, image_unit, metric_code, metric_unit, metric_per_unit, description)
-VALUES
-
-('COM',        N'cơm trắng',      'bát',  'CALORIES',    'kcal', 200,  N'1 chén cơm ~ 200 kcal'),
-
-('TRUNG_LUOC',      N'Trứng luộc',          'quả', 'PROTEIN',     'g',    6,    N'1 trứng ~ 6g protein'),
-
-('DAU_AN',       N'dầu ăn',        'thìa', 'FAT',         'g',    5,    N'1 muỗng dầu ~ 5g chất béo'),
-
-('BUN',      N'bún',        'tô',    'CARB',        'g',    50,   N'1 tô bún/phở ~ 50g carb'),
-
-('RAU',        N'rau luộc',       'đĩa',  'FIBER',       'g',    4,    N'1 chén rau ~ 4g chất xơ'),
-
-('DUONG',     N'đường',         'thìa', 'SUGAR',       'g',    4,    N'1 muỗng đường ~ 4g'),
-
-('MUOI',      N'muối',          'thìa', 'SODIUM',      'mg',   2300, N'1 muỗng muối ~ 2300mg natri'),
-
-('BA_CHI',    N'thịt ba chỉ',   'miếng', 'CHOLESTEROL', 'mg',   80,   N'1 miếng ba chỉ ~ 80mg cholesterol');
+(NEWID(), N'Nguyễn Văn A', SYSDATETIME());

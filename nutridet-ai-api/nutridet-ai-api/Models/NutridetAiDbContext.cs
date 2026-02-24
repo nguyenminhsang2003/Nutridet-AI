@@ -11,7 +11,7 @@ namespace nutridet_ai_api.Models
         }
         public DbSet<User> Users { get; set; }
         public DbSet<ScanImage> ScanImages { get; set; }
-        public DbSet<AiRawOutput> AiRawOutputs { get; set; }
+        public DbSet<OutputNutrition> OutputNutritions { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -21,10 +21,10 @@ namespace nutridet_ai_api.Models
                 .WithMany(u => u.ScanImages)
                 .HasForeignKey(x => x.UserId);
 
-            modelBuilder.Entity<AiRawOutput>()
+            modelBuilder.Entity<OutputNutrition>()
                 .HasOne(x => x.ScanImage)
-                .WithMany(s => s.AiRawOutputs)
-                .HasForeignKey(x => x.ScanImageId);
+                .WithOne(s => s.OutputNutrition)
+                .HasForeignKey<OutputNutrition>(o => o.ScanImageId);
         }
     }
 }

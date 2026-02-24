@@ -25,7 +25,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngularApp", policy =>
     {
-        policy.WithOrigins("http://localhost:4200", "https://localhost:4200")
+        policy.AllowAnyOrigin()
               .AllowAnyHeader()
               .AllowAnyMethod()
               .AllowCredentials();
@@ -34,7 +34,7 @@ builder.Services.AddCors(options =>
 
 // Register Repositories (Repositories Layer)
 builder.Services.AddScoped<IScanImageRepository, ScanImageRepository>();
-builder.Services.AddScoped<IAiRawOutputRepository, AiRawOutputRepository>();
+builder.Services.AddScoped<IOutputNutritionRepository, OutputNutritionRepository>();
 
 // Register Services (Service Layer)
 builder.Services.AddScoped<IScanImageService, ScanImageService>();

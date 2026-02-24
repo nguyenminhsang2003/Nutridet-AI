@@ -7,12 +7,12 @@ namespace nutridet_ai_api.Repositories
     public class ScanImageRepository : IScanImageRepository
     {
         private readonly NutridetAiDbContext _context;
-        private readonly IAiRawOutputRepository _aiRawOutputRepository;
+        private readonly IOutputNutritionRepository _outputNutritionRepository;
 
-        public ScanImageRepository(NutridetAiDbContext context, IAiRawOutputRepository aiRawOutputRepository)
+        public ScanImageRepository(NutridetAiDbContext context, IOutputNutritionRepository outputNutritionRepository)
         {
             _context = context;
-            _aiRawOutputRepository = aiRawOutputRepository;
+            _outputNutritionRepository = outputNutritionRepository;
         }
 
         public async Task SaveScanResultAsync(string imageBase64, string aiResult, int userId, string aiProvider)
@@ -27,15 +27,13 @@ namespace nutridet_ai_api.Repositories
                     UserId = userId,
                     ImageUrl = imageUrl,
                     AiProvider = aiProvider,
+                    RawTextResponse = aiResult,
                     CreatedAt = DateTime.UtcNow,
                     IsDelete = false
                 };
 
                 _context.ScanImages.Add(scanImage);
                 await _context.SaveChangesAsync();
-
-                // Sử dụng repository riêng để lưu AiRawOutput
-                await _aiRawOutputRepository.SaveAiRawOutputAsync(scanImage.ScanImageId, aiResult);
                 
                 await transaction.CommitAsync();
             }

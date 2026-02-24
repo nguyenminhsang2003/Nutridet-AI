@@ -17,6 +17,9 @@ namespace nutridet_ai_api.Models
         [MaxLength(50)]
         public string? AiProvider { get; set; }
 
+        [Column(TypeName = "nvarchar(MAX)")]
+        public string? RawTextResponse { get; set; }
+
         [Column(TypeName = "numeric(4,2)")]
         public decimal? AiConfidence { get; set; }
 
@@ -29,6 +32,6 @@ namespace nutridet_ai_api.Models
 
         public User User { get; set; }
 
-        public ICollection<AiRawOutput> AiRawOutputs { get; set; }
+        public OutputNutrition OutputNutrition { get; set; }
     }
 }

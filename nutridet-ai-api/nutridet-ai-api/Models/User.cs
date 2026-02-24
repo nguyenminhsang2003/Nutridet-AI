@@ -12,6 +12,9 @@ namespace nutridet_ai_api.Models
         [MaxLength(255)]
         public string? Email { get; set; }
 
+        [MaxLength(255)]
+        public string? Password { get; set; }
+
         [MaxLength(150)]
         public string? Name { get; set; }
 
