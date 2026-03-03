@@ -17,10 +17,10 @@ namespace nutridet_ai_api.Models
         [MaxLength(50)]
         public string? AiProvider { get; set; }
 
-        [Column(TypeName = "nvarchar(MAX)")]
+        [Column(TypeName = "text")]
         public string? RawTextResponse { get; set; }
 
-        [Column(TypeName = "numeric(4,2)")]
+        [Column(TypeName = "numeric(10,2)")]
         public decimal? AiConfidence { get; set; }
 
         [MaxLength(10)]

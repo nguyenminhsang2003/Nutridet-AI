@@ -36,26 +36,62 @@ namespace nutridet_ai_api.Services
             }
 
             string nutritionPrompt = @"
-Hãy phân tích hình ảnh và trả về giá trị dinh dưỡng cho TOÀN BỘ sản phẩm (không phải cho 100ml hay đơn vị tính khác).
+You are an AI specialized in extracting nutrition information from food labels (image or text).
 
-Yêu cầu:
-1. Đọc và trích xuất TẤT CẢ các thông tin dinh dưỡng có trong hình ảnh (nhãn sản phẩm, bảng giá trị dinh dưỡng)
-2. Tìm thể tích/khối lượng thực tế của sản phẩm (ví dụ: ""Thể tích thực: 600 ml"", ""Net volume: 330 ml"", ""Khối lượng tịnh: 500g""). Nếu không tìm thấy trực tiếp, hãy suy luận từ kích thước sản phẩm (chai nước ngọt thường là 330ml, 500ml, 600ml, 1L)
-3. Tính toán giá trị dinh dưỡng cho TOÀN BỘ sản phẩm:
-   - Nếu giá trị dinh dưỡng trên nhãn là ""trên 100 ml"" và thể tích thực là 600 ml, thì tính: giá trị trên 100ml × (600/100) = giá trị cho toàn bộ sản phẩm
-   - Ví dụ: Năng lượng 42 kcal/100ml × 6 = 252 kcal cho 600ml
-   - Áp dụng công thức này cho TẤT CẢ các chất dinh dưỡng
-4. Kết quả trả về theo form kết quả theo định dạng Markdown với cấu trúc:
-   - Tiêu đề (##) cho tên sản phẩm
-   - **Thể tích thực sản phẩm:** [giá trị]
-   - **Giá trị dinh dưỡng cho toàn bộ sản phẩm:**
-     * Các vitamin và khoáng chất khác (nếu có)
-5. QUAN TRỌNG: 
-   - CHỈ hiển thị giá trị dinh dưỡng cho TOÀN BỘ sản phẩm, KHÔNG hiển thị giá trị cho 100ml hay đơn vị tính khác
-   - Tất cả các giá trị dinh dưỡng phải được tính toán dựa trên thể tích thực sản phẩm
-   - Làm tròn số đến 1 chữ số thập phân (ví dụ: 252.0 kcal, 63.0 g)
+Your task is to read the nutrition label and return structured nutrition data.
 
-Nếu không tìm thấy thông tin dinh dưỡng trong hình, hãy thông báo rõ ràng.";
+STRICT RULES:
+1. Return ONLY valid JSON. Do not include explanations, markdown, or extra text.
+2. The JSON must ALWAYS contain all fields listed in the schema.
+3. If a value is missing or not visible in the label, return null.
+4. All numbers must be decimal numbers (no units in values).
+5. Extract values exactly as written on the label (do NOT calculate or convert unless explicitly shown).
+6. Units must be interpreted as:
+   - kcal → energyKcal
+   - g → carbohydrateG, sugarG, proteinG, fatG, saturatedFatG, fiberG
+   - mg → sodiumMg, cholesterolMg
+7.If multiple nutrition tables exist, prioritize the table labeled ""per 100g"" or ""per 100ml"".
+LANGUAGE SUPPORT:
+The nutrition label may be in Vietnamese or English.
+
+Vietnamese mapping:
+- Năng lượng → energyKcal
+- Carbohydrate / Carb / Tinh bột → carbohydrateG
+- Đường → sugarG
+- Chất đạm / Protein → proteinG
+- Chất béo / Fat → fatG
+- Chất béo bão hòa → saturatedFatG
+- Chất xơ → fiberG
+- Natri / Muối → sodiumMg
+- Cholesterol → cholesterolMg
+
+JSON SCHEMA (must match exactly):
+
+{
+  ""energyKcal"": number | null,
+  ""carbohydrateG"": number | null,
+  ""sugarG"": number | null,
+  ""proteinG"": number | null,
+  ""fatG"": number | null,
+  ""saturatedFatG"": number | null,
+  ""fiberG"": number | null,
+  ""sodiumMg"": number | null,
+  ""cholesterolMg"": number | null
+}
+
+EXAMPLE OUTPUT:
+
+{
+  ""energyKcal"": 42,
+  ""carbohydrateG"": 10.5,
+  ""sugarG"": 10.5,
+  ""proteinG"": 0,
+  ""fatG"": 0,
+  ""saturatedFatG"": null,
+  ""fiberG"": null,
+  ""sodiumMg"": 23,
+  ""cholesterolMg"": null
+}";
 
             var requestBody = new
             {
@@ -80,21 +116,33 @@ Nếu không tìm thấy thông tin dinh dưỡng trong hình, hãy thông báo 
             };
 
             var json = JsonSerializer.Serialize(requestBody);
+
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            await Task.Delay(1500);
             var response = await _httpClient.PostAsync(url, content);
+
             response.EnsureSuccessStatusCode();
 
-            var responseJson = await response.Content.ReadAsStringAsync();
-            using var doc = JsonDocument.Parse(responseJson);
+            var responseString = await response.Content.ReadAsStringAsync();
 
-            return doc.RootElement
-                      .GetProperty("candidates")[0]
-                      .GetProperty("content")
-                      .GetProperty("parts")[0]
-                      .GetProperty("text")
-                      .GetString() ?? string.Empty;
+            var geminiJson = JsonDocument.Parse(responseString);
+
+            var text = geminiJson
+                .RootElement
+                .GetProperty("candidates")[0]
+                .GetProperty("content")
+                .GetProperty("parts")[0]
+                .GetProperty("text")
+                .GetString();
+
+            if (text.StartsWith("```"))
+            {
+                text = text.Replace("```json", "")
+                           .Replace("```", "")
+                           .Trim();
+            }
+
+            return text;
         }
     }
 }

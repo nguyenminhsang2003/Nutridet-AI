@@ -11,31 +11,31 @@ namespace nutridet_ai_api.Models
 
         public int ScanImageId { get; set; }
 
-        [Column(TypeName = "numeric(4,2)")]
+        [Column(TypeName = "numeric(10,2)")]
         public decimal? EnergyKcal { get; set; }
 
-        [Column(TypeName = "numeric(4,2)")]
+        [Column(TypeName = "numeric(10,2)")]
         public decimal? CarbohydrateG { get; set; }
 
-        [Column(TypeName = "numeric(4,2)")]
+        [Column(TypeName = "numeric(10,2)")]
         public decimal? SugarG { get; set; }
 
-        [Column(TypeName = "numeric(4,2)")]
+        [Column(TypeName = "numeric(10,2)")]
         public decimal? ProteinG { get; set; }
 
-        [Column(TypeName = "numeric(4,2)")]
+        [Column(TypeName = "numeric(10,2)")]
         public decimal? FatG { get; set; }
 
-        [Column(TypeName = "numeric(4,2)")]
+        [Column(TypeName = "numeric(10,2)")]
         public decimal? SaturatedFatG { get; set; }
 
-        [Column(TypeName = "numeric(4,2)")]
+        [Column(TypeName = "numeric(10,2)")]
         public decimal? FiberG { get; set; }
 
-        [Column(TypeName = "numeric(4,2)")]
+        [Column(TypeName = "numeric(10,2)")]
         public decimal? SodiumMg { get; set; }
 
-        [Column(TypeName = "numeric(4,2)")]
+        [Column(TypeName = "numeric(10,2)")]
         public decimal? CholesterolMg { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

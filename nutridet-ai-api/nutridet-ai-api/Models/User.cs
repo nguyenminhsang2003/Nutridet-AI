@@ -20,6 +20,6 @@ namespace nutridet_ai_api.Models
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-        public ICollection<ScanImage> ScanImages { get; set; }
+        public ICollection<ScanImage> ScanImages { get; set; } = new List<ScanImage>();
     }
 }
