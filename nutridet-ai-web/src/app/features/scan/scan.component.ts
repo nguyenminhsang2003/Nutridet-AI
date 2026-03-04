@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-scan',
@@ -54,7 +55,7 @@ export class ScanComponent {
     formData.append('file', this.selectedFile);
 
     this.http.post(
-      'https://localhost:7090/api/scan-image/upload?userId=1',
+      `${environment.apiUrl}/scan-image/upload?userId=1`,
       formData
     ).subscribe({
       next: (res) => {
