@@ -15,7 +15,7 @@ namespace nutridet_ai_api.Repositories
             _outputNutritionRepository = outputNutritionRepository;
         }
 
-        public async Task SaveScanResultAsync(string imageBase64, string aiResult, int userId, string aiProvider)
+        public async Task<ScanImage> SaveScanResultAsync(string imageBase64, string aiResult, int userId, string aiProvider)
         {
             using var transaction = await _context.Database.BeginTransactionAsync();
             try
@@ -36,6 +36,7 @@ namespace nutridet_ai_api.Repositories
                 await _context.SaveChangesAsync();
                 
                 await transaction.CommitAsync();
+                return scanImage;
             }
             catch (Exception)
             {

@@ -23,7 +23,7 @@ ScanImage (
 )
 -- giá trị sau khi tính toán theo thể tích thực
 OutputNutrition (
-    ai_raw_id UNIQUEIDENTIFIER PK,
+    Output_Nutrition_id UNIQUEIDENTIFIER PK,
     scan_image_id UNIQUEIDENTIFIER FK,
     energy_kcal DECIMAL(4,2),
     carbohydrate_g DECIMAL(4,2),

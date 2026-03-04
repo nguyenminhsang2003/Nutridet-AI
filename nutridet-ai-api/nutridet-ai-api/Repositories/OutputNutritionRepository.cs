@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using nutridet_ai_api.Models;
 using nutridet_ai_api.Repositories.IRepositories;
+using System.Text.Json;
+using nutridet_ai_api.DTO;
 
 namespace nutridet_ai_api.Repositories
 {
@@ -13,32 +15,24 @@ namespace nutridet_ai_api.Repositories
             _context = context;
         }
 
-        public async Task SaveOutputNutritionAsync(int scanImageId)
+        public async Task SaveOutputNutritionAsync(int scanImageId, string? aiResult)
         {
+            if (string.IsNullOrEmpty(aiResult))
+                throw new Exception("AI result is null");
+
+            var nutrition = JsonSerializer.Deserialize<OutputNutritionDto>(aiResult);
             var outputNutrition = new OutputNutrition
             {
                 ScanImageId = scanImageId,
-                CreatedAt = DateTime.UtcNow
-            };
-
-            _context.OutputNutritions.Add(outputNutrition);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task SaveOutputNutritionAsync(int scanImageId, decimal? energyKcal, decimal? carbohydrateG, decimal? sugarG, decimal? proteinG, decimal? fatG, decimal? saturatedFatG, decimal? fiberG, decimal? sodiumMg, decimal? cholesterolMg)
-        {
-            var outputNutrition = new OutputNutrition
-            {
-                ScanImageId = scanImageId,
-                EnergyKcal = energyKcal,
-                CarbohydrateG = carbohydrateG,
-                SugarG = sugarG,
-                ProteinG = proteinG,
-                FatG = fatG,
-                SaturatedFatG = saturatedFatG,
-                FiberG = fiberG,
-                SodiumMg = sodiumMg,
-                CholesterolMg = cholesterolMg,
+                EnergyKcal = nutrition?.energyKcal,
+                CarbohydrateG = nutrition?.carbohydrateG,
+                SugarG = nutrition?.sugarG,
+                ProteinG = nutrition?.proteinG,
+                FatG = nutrition?.fatG,
+                SaturatedFatG = nutrition?.saturatedFatG,
+                FiberG = nutrition?.fiberG,
+                SodiumMg = nutrition?.sodiumMg,
+                CholesterolMg = nutrition?.cholesterolMg,
                 CreatedAt = DateTime.UtcNow
             };
 

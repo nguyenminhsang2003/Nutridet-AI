@@ -7,7 +7,7 @@ namespace nutridet_ai_api.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int AiRawId { get; set; }
+        public int OutputNutritionId { get; set; }
 
         public int ScanImageId { get; set; }
 
