@@ -38,7 +38,7 @@ namespace nutridet_ai_api.Controllers
 
             // Pass base64 string and userId to service
             var result = await _scanImageService.ScanImageAsync(imageDataString, userId.Value);
-            return Ok(new { message = result });
+            return Ok(result);
         }
     }
 }
