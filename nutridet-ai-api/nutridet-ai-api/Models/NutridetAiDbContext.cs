@@ -30,8 +30,8 @@ namespace nutridet_ai_api.Models
 
             modelBuilder.Entity<OutputNutritionVisual>()
                 .HasOne(x => x.OutputNutrition)
-                .WithOne(u => u.OutputNutritionVisual)
-                .HasForeignKey<OutputNutritionVisual>(o => o.OutputNutritionId);
+                .WithMany(u => u.OutputNutritionVisuals)
+                .HasForeignKey(x => x.OutputNutritionId);
         }
     }
 }

@@ -5,7 +5,7 @@ namespace nutridet_ai_api.Repositories.IRepositories
     public interface IOutputNutritionRepository
     {
         Task<OutputNutrition> SaveOutputNutritionAsync(int scanImageId, string? aiResult);
-        Task<List<OutputNutrition>> GetAllOutputNutritionsAsync(int scanImageId);
+        Task<OutputNutrition> GetAllOutputNutritionsAsync(int scanImageId);
     }
 }
 

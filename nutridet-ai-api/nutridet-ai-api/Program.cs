@@ -36,10 +36,12 @@ builder.Services.AddCors(options =>
 builder.Services.AddScoped<IScanImageRepository, ScanImageRepository>();
 builder.Services.AddScoped<IOutputNutritionRepository, OutputNutritionRepository>();
 builder.Services.AddScoped<INutritionVisualRuleReponsitory, NutritionVisualRuleReponsitory>();
+builder.Services.AddScoped<IOutputNutritionVisualReponsitory, OutputNutritionVisualReponsitory>();
 
 // Register Services (Service Layer)
 builder.Services.AddScoped<IScanImageService, ScanImageService>();
 builder.Services.AddScoped<IGeminiService, GeminiService>();
+builder.Services.AddScoped<IOutputNutritionVisualService, OutputNutritionVisualService>();
 
 
 

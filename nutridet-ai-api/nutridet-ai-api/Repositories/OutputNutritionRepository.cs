@@ -15,9 +15,9 @@ namespace nutridet_ai_api.Repositories
             _context = context;
         }
 
-        public async Task<List<OutputNutrition>> GetAllOutputNutritionsAsync(int scanImageId)
+        public async Task<OutputNutrition> GetAllOutputNutritionsAsync(int scanImageId)
         {
-            return await _context.OutputNutritions.Where(o => o.ScanImageId == scanImageId).ToListAsync();
+            return await _context.OutputNutritions.FirstOrDefaultAsync(o => o.ScanImageId == scanImageId);
         }
 
         public async Task<OutputNutrition> SaveOutputNutritionAsync(int scanImageId, string? aiResult)

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using nutridet_ai_api.Models;
@@ -11,9 +12,11 @@ using nutridet_ai_api.Models;
 namespace nutridet_ai_api.Migrations
 {
     [DbContext(typeof(NutridetAiDbContext))]
-    partial class NutridetAiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260305034313_CreateOutputNutritionVisual")]
+    partial class CreateOutputNutritionVisual
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -124,7 +127,8 @@ namespace nutridet_ai_api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OutputNutritionId");
+                    b.HasIndex("OutputNutritionId")
+                        .IsUnique();
 
                     b.ToTable("OutputNutritionVisuals");
                 });
@@ -213,8 +217,8 @@ namespace nutridet_ai_api.Migrations
             modelBuilder.Entity("nutridet_ai_api.Models.OutputNutritionVisual", b =>
                 {
                     b.HasOne("nutridet_ai_api.Models.OutputNutrition", "OutputNutrition")
-                        .WithMany("OutputNutritionVisuals")
-                        .HasForeignKey("OutputNutritionId")
+                        .WithOne("OutputNutritionVisual")
+                        .HasForeignKey("nutridet_ai_api.Models.OutputNutritionVisual", "OutputNutritionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -234,7 +238,8 @@ namespace nutridet_ai_api.Migrations
 
             modelBuilder.Entity("nutridet_ai_api.Models.OutputNutrition", b =>
                 {
-                    b.Navigation("OutputNutritionVisuals");
+                    b.Navigation("OutputNutritionVisual")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("nutridet_ai_api.Models.ScanImage", b =>
