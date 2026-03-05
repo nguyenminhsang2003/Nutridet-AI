@@ -12,6 +12,8 @@ namespace nutridet_ai_api.Models
         public DbSet<User> Users { get; set; }
         public DbSet<ScanImage> ScanImages { get; set; }
         public DbSet<OutputNutrition> OutputNutritions { get; set; }
+        public DbSet<NutritionVisualRule> NutritionVisualRules { get; set; }
+        public DbSet<OutputNutritionVisual> OutputNutritionVisuals { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -25,6 +27,11 @@ namespace nutridet_ai_api.Models
                 .HasOne(x => x.ScanImage)
                 .WithOne(s => s.OutputNutrition)
                 .HasForeignKey<OutputNutrition>(o => o.ScanImageId);
+
+            modelBuilder.Entity<OutputNutritionVisual>()
+                .HasOne(x => x.OutputNutrition)
+                .WithOne(u => u.OutputNutritionVisual)
+                .HasForeignKey<OutputNutritionVisual>(o => o.OutputNutritionId);
         }
     }
 }

@@ -15,7 +15,12 @@ namespace nutridet_ai_api.Repositories
             _context = context;
         }
 
-        public async Task SaveOutputNutritionAsync(int scanImageId, string? aiResult)
+        public async Task<List<OutputNutrition>> GetAllOutputNutritionsAsync(int scanImageId)
+        {
+            return await _context.OutputNutritions.Where(o => o.ScanImageId == scanImageId).ToListAsync();
+        }
+
+        public async Task<OutputNutrition> SaveOutputNutritionAsync(int scanImageId, string? aiResult)
         {
             if (string.IsNullOrEmpty(aiResult))
                 throw new Exception("AI result is null");
@@ -38,6 +43,7 @@ namespace nutridet_ai_api.Repositories
 
             _context.OutputNutritions.Add(outputNutrition);
             await _context.SaveChangesAsync();
+            return outputNutrition;
         }
     }
 }

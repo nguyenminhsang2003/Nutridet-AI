@@ -1,48 +1,80 @@
---
+---
 CREATE
---
+---
 -- người dùng
 User (
-    user_id UNIQUEIDENTIFIER PK,
-    email NVARCHAR(255),
-    password NVARCHAR(255),
-    name NVARCHAR(150),
-    created_at DATETIME2
+    	user_id UNIQUEIDENTIFIER PK,
+    	email NVARCHAR(255),
+    	password NVARCHAR(255),
+    	name NVARCHAR(150),
+    	created_at DATETIME2
 )
 -- giá trị mặc định của AI
 ScanImage (
-    scan_image_id UNIQUEIDENTIFIER PK,
-    user_id UNIQUEIDENTIFIER FK,
-    image_url NVARCHAR(500),
-    ai_provider NVARCHAR(50),
-    raw_text_response NVARCHAR(MAX),
-    ai_confidence DECIMAL(4,2),
-    confidence_status NVARCHAR(10),
-    created_at DATETIME2,
-    isDelete bit
+    	scan_image_id UNIQUEIDENTIFIER PK,
+    	user_id UNIQUEIDENTIFIER FK,
+    	image_url NVARCHAR(500),
+    	ai_provider NVARCHAR(50),
+    	raw_text_response NVARCHAR(MAX),
+    	ai_confidence DECIMAL(4,2),
+    	confidence_status NVARCHAR(10),
+    	created_at DATETIME2,
+    	isDelete bit
 )
 -- giá trị sau khi tính toán theo thể tích thực
 OutputNutrition (
-    Output_Nutrition_id UNIQUEIDENTIFIER PK,
-    scan_image_id UNIQUEIDENTIFIER FK,
-    energy_kcal DECIMAL(4,2),
-    carbohydrate_g DECIMAL(4,2),
-    sugar_g DECIMAL(4,2),
-    protein_g DECIMAL(4,2),
-    fat_g DECIMAL(4,2),
-    saturated_fat_g DECIMAL(4,2),
-    fiber_g DECIMAL(4,2),
-    sodium_mg DECIMAL(4,2),
-    cholesterol_mg DECIMAL(4,2),
-    sodium_mg DECIMAL(4,2),
-    created_at DATETIME2
+    	Output_Nutrition_id UNIQUEIDENTIFIER PK,
+    	scan_image_id UNIQUEIDENTIFIER FK,
+    	energy_kcal DECIMAL(10,2),
+    	carbohydrate_g DECIMAL(10,2),
+    	sugar_g DECIMAL(10,2),
+    	protein_g DECIMAL(10,2),
+    	fat_g DECIMAL(10,2),
+    	saturated_fat_g DECIMAL(10,2),
+    	fiber_g DECIMAL(10,2),
+    	sodium_mg DECIMAL(10,2),
+    	cholesterol_mg DECIMAL(10,2),
+    	sodium_mg DECIMAL(10,2),
+    	created_at DATETIME2
+)
+--bộ chuyển đổi giá trị ra hình ảnh trực quan
+NutritionVisualRule(
+	Id UNIQUEIDENTIFIER PK,
+	Nutrient NVARCHAR(100) required,
+	ReferenceAmount DECIMAL(5,2),
+	VisualName NVARCHAR(500) 
+)
+-- lưu giá trị chuyển đổi
+OutputNutritionVisual(
+Id UNIQUEIDENTIFIER PK,
+OutputNutritionId FK,
+NutrientName NVARCHAR(100) required,
+OriginalValue DECIMAL(10,2),
+VisualName NVARCHAR(100) ,
+VisualValue DECIMAL(10,2)
 )
 
+---
+insert in C#
+---
+            modelBuilder.Entity<User>().HasData(
+                new User
+                {
+                    UserId = 1,
+                    Email = "A@gmail.com",
+                    Password = "123456",
+                    Name = "A",
+                    CreatedAt = DateTime.Now
+                }
+            );
 
---
-INSERT
---
-*
-INSERT INTO User (user_id, name, created_at)
-VALUES
-(NEWID(), N'Nguyễn Văn A', SYSDATETIME());
+            modelBuilder.Entity<NutritionVisualRule>().HasData(
+                new NutritionVisualRule { Id = 1, Nutrient = "carbohydrateG", ReferenceAmount = 15, VisualName = "lát bánh mì" },
+                new NutritionVisualRule { Id = 2, Nutrient = "sugarG", ReferenceAmount = 4, VisualName = "viên đường" },
+                new NutritionVisualRule { Id = 3, Nutrient = "proteinG", ReferenceAmount = 6, VisualName = "quả trứng" },
+                new NutritionVisualRule { Id = 4, Nutrient = "fatG", ReferenceAmount = 14, VisualName = "thìa dầu" },
+                new NutritionVisualRule { Id = 5, Nutrient = "saturatedFatG", ReferenceAmount = 5, VisualName = "miếng bơ" },
+                new NutritionVisualRule { Id = 6, Nutrient = "fiberG", ReferenceAmount = 4, VisualName = "quả táo" },
+                new NutritionVisualRule { Id = 7, Nutrient = "sodiumMg", ReferenceAmount = 400, VisualName = "thìa muối" },
+                new NutritionVisualRule { Id = 8, Nutrient = "cholesterolMg", ReferenceAmount = 186, VisualName = "lòng đỏ trứng" }
+            );

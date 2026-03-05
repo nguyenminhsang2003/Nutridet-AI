@@ -35,6 +35,7 @@ builder.Services.AddCors(options =>
 // Register Repositories (Repositories Layer)
 builder.Services.AddScoped<IScanImageRepository, ScanImageRepository>();
 builder.Services.AddScoped<IOutputNutritionRepository, OutputNutritionRepository>();
+builder.Services.AddScoped<INutritionVisualRuleReponsitory, NutritionVisualRuleReponsitory>();
 
 // Register Services (Service Layer)
 builder.Services.AddScoped<IScanImageService, ScanImageService>();

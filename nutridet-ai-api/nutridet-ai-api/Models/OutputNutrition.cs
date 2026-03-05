@@ -41,6 +41,7 @@ namespace nutridet_ai_api.Models
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public ScanImage ScanImage { get; set; }
+        public OutputNutritionVisual OutputNutritionVisual { get; set; }
     }
 }
 

@@ -20,7 +20,7 @@ namespace nutridet_ai_api.Services
         {
             var aiResult = await _geminiService.GenerateAsync(imageBase64);
             var scanImage = await _scanImageRepository.SaveScanResultAsync("URL", aiResult, userId, "Gemini");
-            await _outputNutritionRepository.SaveOutputNutritionAsync(scanImage.ScanImageId, aiResult);
+            var outputNutrition = await _outputNutritionRepository.SaveOutputNutritionAsync(scanImage.ScanImageId, aiResult);
             return aiResult;
         }
     }
