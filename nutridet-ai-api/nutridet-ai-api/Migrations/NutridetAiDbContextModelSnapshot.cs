@@ -22,6 +22,40 @@ namespace nutridet_ai_api.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("nutridet_ai_api.Models.NutritionExcerciseRule", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Excercise")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("Nutrient")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<decimal>("ReferenceAmount")
+                        .HasColumnType("numeric(10,2)");
+
+                    b.Property<string>("Unit")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("nutritionExcerciseRules");
+                });
+
             modelBuilder.Entity("nutridet_ai_api.Models.NutritionVisualRule", b =>
                 {
                     b.Property<int>("Id")
@@ -30,16 +64,21 @@ namespace nutridet_ai_api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Nutrient")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<decimal>("ReferenceAmount")
-                        .HasColumnType("numeric");
+                        .HasColumnType("numeric(10,2)");
 
                     b.Property<string>("VisualName")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.HasKey("Id");
 
@@ -95,6 +134,40 @@ namespace nutridet_ai_api.Migrations
                     b.ToTable("OutputNutritions");
                 });
 
+            modelBuilder.Entity("nutridet_ai_api.Models.OutputNutritionExcercise", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Excercise")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<decimal?>("ExcerciseValue")
+                        .HasColumnType("numeric(10,2)");
+
+                    b.Property<string>("Nutrient")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<decimal?>("OriginalValue")
+                        .HasColumnType("numeric(10,2)");
+
+                    b.Property<int>("OutputNutritionId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OutputNutritionId");
+
+                    b.ToTable("OutputNutritionExcercises");
+                });
+
             modelBuilder.Entity("nutridet_ai_api.Models.OutputNutritionVisual", b =>
                 {
                     b.Property<int>("Id")
@@ -114,13 +187,13 @@ namespace nutridet_ai_api.Migrations
                     b.Property<int>("OutputNutritionId")
                         .HasColumnType("integer");
 
-                    b.Property<decimal?>("VisualAmount")
-                        .HasColumnType("numeric(10,2)");
-
                     b.Property<string>("VisualName")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
+
+                    b.Property<decimal?>("VisualValue")
+                        .HasColumnType("numeric(10,2)");
 
                     b.HasKey("Id");
 
@@ -210,6 +283,17 @@ namespace nutridet_ai_api.Migrations
                     b.Navigation("ScanImage");
                 });
 
+            modelBuilder.Entity("nutridet_ai_api.Models.OutputNutritionExcercise", b =>
+                {
+                    b.HasOne("nutridet_ai_api.Models.OutputNutrition", "OutputNutrition")
+                        .WithMany("OutputNutritionExcercises")
+                        .HasForeignKey("OutputNutritionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("OutputNutrition");
+                });
+
             modelBuilder.Entity("nutridet_ai_api.Models.OutputNutritionVisual", b =>
                 {
                     b.HasOne("nutridet_ai_api.Models.OutputNutrition", "OutputNutrition")
@@ -234,6 +318,8 @@ namespace nutridet_ai_api.Migrations
 
             modelBuilder.Entity("nutridet_ai_api.Models.OutputNutrition", b =>
                 {
+                    b.Navigation("OutputNutritionExcercises");
+
                     b.Navigation("OutputNutritionVisuals");
                 });
 

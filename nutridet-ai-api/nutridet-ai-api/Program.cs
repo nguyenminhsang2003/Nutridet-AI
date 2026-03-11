@@ -37,11 +37,14 @@ builder.Services.AddScoped<IScanImageRepository, ScanImageRepository>();
 builder.Services.AddScoped<IOutputNutritionRepository, OutputNutritionRepository>();
 builder.Services.AddScoped<INutritionVisualRuleReponsitory, NutritionVisualRuleReponsitory>();
 builder.Services.AddScoped<IOutputNutritionVisualReponsitory, OutputNutritionVisualReponsitory>();
+builder.Services.AddScoped<INutritionExcerciseRuleReponsitory, NutritionExcerciseRuleReponsitory>();
+builder.Services.AddScoped<IOutputNutritionExcerciseReponsitory, OutputNutritionExcerciseReponsitory>();
 
 // Register Services (Service Layer)
 builder.Services.AddScoped<IScanImageService, ScanImageService>();
 builder.Services.AddScoped<IGeminiService, GeminiService>();
 builder.Services.AddScoped<IOutputNutritionVisualService, OutputNutritionVisualService>();
+builder.Services.AddScoped<IOutputNutritionExcerciseService, OutputNutritionExcerciseService>();
 
 
 

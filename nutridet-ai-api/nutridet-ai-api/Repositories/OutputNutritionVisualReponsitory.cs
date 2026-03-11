@@ -1,6 +1,7 @@
 ﻿using nutridet_ai_api.Models;
+using nutridet_ai_api.Repositories.IRepositories;
 
-namespace nutridet_ai_api.Repositories.IRepositories
+namespace nutridet_ai_api.Repositories
 {
     public class OutputNutritionVisualReponsitory : IOutputNutritionVisualReponsitory
     {

@@ -14,6 +14,8 @@ namespace nutridet_ai_api.Models
         public DbSet<OutputNutrition> OutputNutritions { get; set; }
         public DbSet<NutritionVisualRule> NutritionVisualRules { get; set; }
         public DbSet<OutputNutritionVisual> OutputNutritionVisuals { get; set; }
+        public DbSet<NutritionExcerciseRule> NutritionExcerciseRules { get; set; }
+        public DbSet<OutputNutritionExcercise> OutputNutritionExcercises { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -32,6 +34,13 @@ namespace nutridet_ai_api.Models
                 .HasOne(x => x.OutputNutrition)
                 .WithMany(u => u.OutputNutritionVisuals)
                 .HasForeignKey(x => x.OutputNutritionId);
+
+            modelBuilder.Entity<OutputNutritionExcercise>()
+                .HasOne(x => x.OutputNutrition)
+                .WithMany(u => u.OutputNutritionExcercises)
+                .HasForeignKey(x => x.OutputNutritionId);
+
+            
         }
     }
 }

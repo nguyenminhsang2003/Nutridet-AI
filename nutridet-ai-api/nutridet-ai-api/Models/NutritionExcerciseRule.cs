@@ -3,9 +3,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace nutridet_ai_api.Models
 {
-    public class NutritionVisualRule
+    public class NutritionExcerciseRule
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Required]
@@ -16,7 +17,11 @@ namespace nutridet_ai_api.Models
         public decimal ReferenceAmount { get; set; }
 
         [StringLength(50)]
-        public string VisualName { get; set; }
+        public string Excercise { get; set; }
+
+        [StringLength(50)]
+        public string Unit { get; set; }
+
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

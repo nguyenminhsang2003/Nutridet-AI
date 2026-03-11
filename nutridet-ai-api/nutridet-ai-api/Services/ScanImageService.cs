@@ -1,4 +1,6 @@
-﻿using nutridet_ai_api.DTO;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
+using nutridet_ai_api.DTO;
 using nutridet_ai_api.Models;
 using nutridet_ai_api.Repositories.IRepositories;
 using nutridet_ai_api.Services.IService;
@@ -23,7 +25,7 @@ namespace nutridet_ai_api.Services
             _outputNutritionVisualService = outputNutritionVisualService;
         }
 
-        public async Task<List<OutputNutritionVisualDto>> ScanImageAsync(string imageBase64, int userId)
+        public async Task<Object> ScanImageAsync(string imageBase64, int userId)
         {
             var aiResult = await _geminiService.GenerateAsync(imageBase64);
             var scanImage = await _scanImageRepository.SaveScanResultAsync("URL", aiResult, userId, "Gemini");
@@ -43,7 +45,12 @@ namespace nutridet_ai_api.Services
             };
 
             var convertNutrition = await _outputNutritionVisualService.ConvertNutritionAsync(outputNutrition.OutputNutritionId, outputNutritionDto);
-            return convertNutrition;
+            return new
+            {
+                scanImageId = scanImage.ScanImageId,
+                outputNutritionId = outputNutrition.OutputNutritionId,
+                convertNutrition = convertNutrition
+            };
         }
     }
 }

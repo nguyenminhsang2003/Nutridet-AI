@@ -34,24 +34,43 @@ OutputNutrition (
     	fiber_g DECIMAL(10,2),
     	sodium_mg DECIMAL(10,2),
     	cholesterol_mg DECIMAL(10,2),
-    	sodium_mg DECIMAL(10,2),
-    	created_at DATETIME2
+    	sodium_mg DECIMAL(10,2)
 )
 --bộ chuyển đổi giá trị ra hình ảnh trực quan
 NutritionVisualRule(
 	Id UNIQUEIDENTIFIER PK,
 	Nutrient NVARCHAR(100) required,
 	ReferenceAmount DECIMAL(5,2),
-	VisualName NVARCHAR(500) 
+	VisualName NVARCHAR(50),
+    	created_at DATETIME2 
 )
--- lưu giá trị chuyển đổi
+-- lưu giá trị chuyển đổi visual
 OutputNutritionVisual(
-Id UNIQUEIDENTIFIER PK,
-OutputNutritionId FK,
-NutrientName NVARCHAR(100) required,
-OriginalValue DECIMAL(10,2),
-VisualName NVARCHAR(100) ,
-VisualValue DECIMAL(10,2)
+	Id UNIQUEIDENTIFIER PK,
+	OutputNutritionId FK,
+	NutrientName NVARCHAR(100) required,
+	OriginalValue DECIMAL(10,2),
+	VisualName NVARCHAR(100) ,
+	VisualValue DECIMAL(10,2)
+)
+-- rule cho bộ chuyển đổi giá trị sang bài thể dục
+NutritionExcerciseRule(
+	Id UNIQUEIDENTIFIER PK,
+	Nutrient NVARCHAR(100) required,
+	ReferenceAmount DECIMAL(10,2),
+	Excercise NVARCHAR(100),
+	Unit NVARCHAR(20),
+    	created_at DATETIME2
+)
+-- lưu giá trị chuyển đổi excercise
+OutputNutritionExcercise(
+	Id UNIQUEIDENTIFIER PK,
+	OutputNutritionId FK,	
+	NutrientName NVARCHAR(100) required,
+	OriginalValue DECIMAL(10,2),
+	Excercise NVARCHAR(100) ,
+	ExcerciseValue DECIMAL(10,2),
+	Unit NVARCHAR(20)
 )
 
 ---
@@ -78,3 +97,14 @@ insert in C#
                 new NutritionVisualRule { Id = 7, Nutrient = "sodiumMg", ReferenceAmount = 400, VisualName = "thìa muối" },
                 new NutritionVisualRule { Id = 8, Nutrient = "cholesterolMg", ReferenceAmount = 186, VisualName = "lòng đỏ trứng" }
             );
+
+modelBuilder.Entity<NutritionExcerciseRule>().HasData(
+        new NutritionExcerciseRule { Id = 1, Nutrient = "carbohydrateG", ReferenceAmount = 50, Excercise = "Chạy bộ", Unit = "phút", CreatedAt = DateTime.Now },
+        new NutritionExcerciseRule { Id = 2, Nutrient = "sugarG", ReferenceAmount = 25, Excercise = "Nhảy dây", Unit = "phút", CreatedAt = DateTime.Now },
+        new NutritionExcerciseRule { Id = 3, Nutrient = "proteinG", ReferenceAmount = 30, Excercise = "Chống đẩy", Unit = "lần", CreatedAt = DateTime.Now },
+        new NutritionExcerciseRule { Id = 4, Nutrient = "fatG", ReferenceAmount = 20, Excercise = "Đạp xe", Unit = "phút", CreatedAt = DateTime.Now },
+        new NutritionExcerciseRule { Id = 5, Nutrient = "saturatedFatG", ReferenceAmount = 10, Excercise = "squat", Unit = "lần", CreatedAt = DateTime.Now },
+        new NutritionExcerciseRule { Id = 6, Nutrient = "fiberG", ReferenceAmount = 15, Excercise = "Đi bộ", Unit = "phút", CreatedAt = DateTime.Now },
+        new NutritionExcerciseRule { Id = 7, Nutrient = "sodiumMg", ReferenceAmount = 500, Excercise = "Cardio", Unit = "phút", CreatedAt = DateTime.Now },
+        new NutritionExcerciseRule { Id = 8, Nutrient = "cholesterolMg", ReferenceAmount = 200, Excercise = "Chạy chậm", Unit = "phút", CreatedAt = DateTime.Now }
+    );

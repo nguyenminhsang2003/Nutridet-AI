@@ -45,6 +45,10 @@ namespace nutridet_ai_api.Repositories
             await _context.SaveChangesAsync();
             return outputNutrition;
         }
+        public async Task<OutputNutrition> GetOutputNutritionsByIdAsync(int outputNutritionId)
+        {
+            return await _context.OutputNutritions.FirstOrDefaultAsync(o => o.OutputNutritionId == outputNutritionId);
+        }
     }
 }
 

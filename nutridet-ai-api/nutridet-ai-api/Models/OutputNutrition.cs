@@ -42,6 +42,7 @@ namespace nutridet_ai_api.Models
 
         public ScanImage ScanImage { get; set; }
         public ICollection<OutputNutritionVisual> OutputNutritionVisuals { get; set; } = new List<OutputNutritionVisual>();
+        public ICollection<OutputNutritionExcercise> OutputNutritionExcercises { get; set; } = new List<OutputNutritionExcercise>();
     }
 }
 
