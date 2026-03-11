@@ -11,31 +11,38 @@ namespace nutridet_ai_api.Services
         private readonly INutritionExcerciseRuleReponsitory _nutritionExcerciseRuleReponsitory;
         private readonly IOutputNutritionRepository _outputNutritionRepository;
         private readonly IOutputNutritionExcerciseReponsitory _outputNutritionExcerciseReponsitory;
+        private readonly IScanImageRepository _scanImageRepository;
 
 
         public OutputNutritionExcerciseService(NutridetAiDbContext context, 
                                             INutritionExcerciseRuleReponsitory nutritionExcerciseRuleReponsitory,
                                             IOutputNutritionRepository outputNutritionRepository,
-                                            IOutputNutritionExcerciseReponsitory outputNutritionExcerciseReponsitory)
+                                            IOutputNutritionExcerciseReponsitory outputNutritionExcerciseReponsitory,
+                                            IScanImageRepository scanImageRepository)
         {
             _context = context;
             _nutritionExcerciseRuleReponsitory = nutritionExcerciseRuleReponsitory;
             _outputNutritionRepository = outputNutritionRepository;
             _outputNutritionExcerciseReponsitory = outputNutritionExcerciseReponsitory;
+            _scanImageRepository = scanImageRepository;
         }
 
-        public async Task<List<OutputNutritionExcerciseDto>> CreateExercisesAsync(int outputNutritionId)
+        public async Task<List<OutputNutritionExcerciseDto>> CreateExercisesAsync(int scanImageId, int outputNutritionId)
         {
-            if (outputNutritionId <= 0)
+            if (scanImageId <= 0  && outputNutritionId <= 0)
             {
                 throw new NotImplementedException();
             }
-
+            if (! await _scanImageRepository.SoftDeleteAsync(scanImageId))
+            {
+                throw new NotImplementedException();
+            }
             var listResults = new List<OutputNutritionExcerciseDto>();
 
             var listNutritionExcerciseRule = await _nutritionExcerciseRuleReponsitory.GetAllNutritionExcerciseRuleAsync();
 
             var outputNutrition = await _outputNutritionRepository.GetOutputNutritionsByIdAsync(outputNutritionId);
+
             var outputNutritionDto = new OutputNutritionDto()
             {
                 energyKcal = outputNutrition.EnergyKcal,

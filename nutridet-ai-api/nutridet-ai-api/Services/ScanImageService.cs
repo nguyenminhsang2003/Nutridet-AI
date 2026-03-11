@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using nutridet_ai_api.DTO;
 using nutridet_ai_api.Models;
+using nutridet_ai_api.Repositories;
 using nutridet_ai_api.Repositories.IRepositories;
 using nutridet_ai_api.Services.IService;
 
@@ -23,6 +24,11 @@ namespace nutridet_ai_api.Services
             _scanImageRepository = scanImageRepository;
             _outputNutritionRepository = outputNutritionRepository;
             _outputNutritionVisualService = outputNutritionVisualService;
+        }
+
+        public async Task<ScanImage?> GetInvokeAsync(int scanImageId)
+        {
+            return await _scanImageRepository.GetInvokeAsync(scanImageId);
         }
 
         public async Task<Object> ScanImageAsync(string imageBase64, int userId)

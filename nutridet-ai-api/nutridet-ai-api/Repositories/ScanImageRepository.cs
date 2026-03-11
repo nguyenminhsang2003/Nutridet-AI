@@ -15,6 +15,25 @@ namespace nutridet_ai_api.Repositories
             _outputNutritionRepository = outputNutritionRepository;
         }
 
+        public async Task<ScanImage?> GetInvokeAsync(int scanImageId)
+        {
+            return await _context.ScanImages.AsNoTracking()
+                                            .Where(s => s.ScanImageId == scanImageId)
+                                            .Select(s => new ScanImage
+                                            {
+                                                ScanImageId = s.ScanImageId,
+                                                ImageUrl = s.ImageUrl,
+                                                CreatedAt = s.CreatedAt,
+                                                User = s.User,
+                                                OutputNutrition = new OutputNutrition
+                                                {
+                                                    OutputNutritionVisuals = s.OutputNutrition.OutputNutritionVisuals,
+                                                    OutputNutritionExcercises = s.OutputNutrition.OutputNutritionExcercises
+                                                }
+                                            })
+                                            .FirstOrDefaultAsync();
+        }
+
         public async Task<ScanImage> SaveScanResultAsync(string imageBase64, string aiResult, int userId, string aiProvider)
         {
             using var transaction = await _context.Database.BeginTransactionAsync();
@@ -43,6 +62,18 @@ namespace nutridet_ai_api.Repositories
                 await transaction.RollbackAsync();
                 throw;
             }
+        }
+
+        public async Task<bool> SoftDeleteAsync(int scanImageId)
+        {
+            var scanImage = await _context.ScanImages.FirstOrDefaultAsync(s => s.ScanImageId == scanImageId);
+            if (scanImage == null)
+            {
+                return false;
+            }
+            scanImage.IsDelete = true;
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

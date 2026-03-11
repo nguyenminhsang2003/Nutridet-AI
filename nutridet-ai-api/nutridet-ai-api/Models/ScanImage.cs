@@ -28,7 +28,7 @@ namespace nutridet_ai_api.Models
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-        public bool IsDelete { get; set; } = false;
+        public bool IsDelete { get; set; } = true;
 
         public User User { get; set; }
 
