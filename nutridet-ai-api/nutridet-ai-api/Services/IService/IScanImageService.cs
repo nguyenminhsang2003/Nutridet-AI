@@ -8,5 +8,7 @@ namespace nutridet_ai_api.Services.IService
     {
         Task<Object> ScanImageAsync(string imageBase64, int userId);
         Task<ScanImage?> GetInvokeAsync(int scanImageId);
+        Task<List<ScanImage>> GetAllInvokeAsync(int userId, DateTime? startDate, DateTime? endDate);
+
     }
 }

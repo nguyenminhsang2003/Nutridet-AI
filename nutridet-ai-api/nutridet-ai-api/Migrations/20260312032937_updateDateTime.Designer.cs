@@ -12,8 +12,8 @@ using nutridet_ai_api.Models;
 namespace nutridet_ai_api.Migrations
 {
     [DbContext(typeof(NutridetAiDbContext))]
-    [Migration("20260310080932_Init")]
-    partial class Init
+    [Migration("20260312032937_updateDateTime")]
+    partial class updateDateTime
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -56,7 +56,7 @@ namespace nutridet_ai_api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("nutritionExcerciseRules");
+                    b.ToTable("NutritionExcerciseRules");
                 });
 
             modelBuilder.Entity("nutridet_ai_api.Models.NutritionVisualRule", b =>

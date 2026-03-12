@@ -14,16 +14,34 @@ namespace nutridet_ai_api.Services
         private readonly IScanImageRepository _scanImageRepository;
         private readonly IOutputNutritionRepository _outputNutritionRepository;
         private readonly IOutputNutritionVisualService _outputNutritionVisualService;
+        private readonly IUserReponsitory _userReponsitory;
 
         public ScanImageService(IGeminiService geminiService, 
                                 IScanImageRepository scanImageRepository, 
                                 IOutputNutritionRepository outputNutritionRepository,
-                                IOutputNutritionVisualService outputNutritionVisualService)
+                                IOutputNutritionVisualService outputNutritionVisualService,
+                                IUserReponsitory userReponsitory)
         {
             _geminiService = geminiService;
             _scanImageRepository = scanImageRepository;
             _outputNutritionRepository = outputNutritionRepository;
             _outputNutritionVisualService = outputNutritionVisualService;
+            _userReponsitory = userReponsitory;
+        }
+
+        public async Task<List<ScanImage>> GetAllInvokeAsync(int userId, DateTime? startDate, DateTime? endDate)
+        {
+            var userExit = await _userReponsitory.GetUserByIdAsync(userId);
+            if (userExit == null)
+            {
+                throw new NotImplementedException("user not exit");
+            }
+            var listScanImage = await _scanImageRepository.GetAllScanImagesByUserIdAsync(userId, startDate, endDate);
+            if(!listScanImage.Any())
+            {
+                throw new NotImplementedException("listScanImage is null");
+            }
+            return listScanImage;
         }
 
         public async Task<ScanImage?> GetInvokeAsync(int scanImageId)

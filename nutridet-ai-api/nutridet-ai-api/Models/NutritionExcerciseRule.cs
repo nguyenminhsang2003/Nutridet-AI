@@ -22,6 +22,7 @@ namespace nutridet_ai_api.Models
         [StringLength(50)]
         public string Unit { get; set; }
 
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        [Column(TypeName = "timestamp without time zone")] 
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
     }
 }

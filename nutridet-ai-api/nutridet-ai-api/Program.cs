@@ -39,6 +39,7 @@ builder.Services.AddScoped<INutritionVisualRuleReponsitory, NutritionVisualRuleR
 builder.Services.AddScoped<IOutputNutritionVisualReponsitory, OutputNutritionVisualReponsitory>();
 builder.Services.AddScoped<INutritionExcerciseRuleReponsitory, NutritionExcerciseRuleReponsitory>();
 builder.Services.AddScoped<IOutputNutritionExcerciseReponsitory, OutputNutritionExcerciseReponsitory>();
+builder.Services.AddScoped<IUserReponsitory, UserReponsitory>();
 
 // Register Services (Service Layer)
 builder.Services.AddScoped<IScanImageService, ScanImageService>();

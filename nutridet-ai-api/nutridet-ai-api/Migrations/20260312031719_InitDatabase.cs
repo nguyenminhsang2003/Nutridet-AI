@@ -7,13 +7,13 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace nutridet_ai_api.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class InitDatabase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "nutritionExcerciseRules",
+                name: "NutritionExcerciseRules",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -26,7 +26,7 @@ namespace nutridet_ai_api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_nutritionExcerciseRules", x => x.Id);
+                    table.PrimaryKey("PK_NutritionExcerciseRules", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -73,7 +73,7 @@ namespace nutridet_ai_api.Migrations
                     RawTextResponse = table.Column<string>(type: "text", nullable: true),
                     AiConfidence = table.Column<decimal>(type: "numeric(10,2)", nullable: true),
                     ConfidenceStatus = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     IsDelete = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
@@ -188,7 +188,7 @@ namespace nutridet_ai_api.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "nutritionExcerciseRules");
+                name: "NutritionExcerciseRules");
 
             migrationBuilder.DropTable(
                 name: "NutritionVisualRules");

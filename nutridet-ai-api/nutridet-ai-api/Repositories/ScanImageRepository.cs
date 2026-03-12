@@ -47,13 +47,12 @@ namespace nutridet_ai_api.Repositories
                     ImageUrl = imageUrl,
                     AiProvider = aiProvider,
                     RawTextResponse = aiResult,
-                    CreatedAt = DateTime.UtcNow,
-                    IsDelete = false
+                    CreatedAt = DateTime.UtcNow
                 };
 
                 _context.ScanImages.Add(scanImage);
                 await _context.SaveChangesAsync();
-                
+
                 await transaction.CommitAsync();
                 return scanImage;
             }
@@ -74,6 +73,32 @@ namespace nutridet_ai_api.Repositories
             scanImage.IsDelete = false;
             await _context.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<List<ScanImage>> GetAllScanImagesByUserIdAsync(int userId, DateTime? startDate, DateTime? endDate)
+        {
+            var query = _context.ScanImages.AsNoTracking().Where(s => s.UserId == userId);
+            if (startDate.HasValue)
+            {
+                query = query.Where(s => s.CreatedAt >= startDate.Value);
+            }
+
+            if (endDate.HasValue)
+            {
+                query = query.Where(s => s.CreatedAt <= endDate.Value);
+            }
+            return await query.Select(s => new ScanImage
+                                        {
+                                            ScanImageId = s.ScanImageId,
+                                            ImageUrl = s.ImageUrl,
+                                            CreatedAt = s.CreatedAt,
+                                            User = s.User,
+                                            OutputNutrition = new OutputNutrition
+                                            {
+                                                OutputNutritionVisuals = s.OutputNutrition.OutputNutritionVisuals,
+                                                OutputNutritionExcercises = s.OutputNutrition.OutputNutritionExcercises
+                                            }
+                                        }).ToListAsync();
         }
     }
 }

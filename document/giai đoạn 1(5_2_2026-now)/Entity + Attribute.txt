@@ -88,14 +88,14 @@ insert in C#
             );
 
             modelBuilder.Entity<NutritionVisualRule>().HasData(
-                new NutritionVisualRule { Id = 1, Nutrient = "carbohydrateG", ReferenceAmount = 15, VisualName = "lát bánh mì" },
-                new NutritionVisualRule { Id = 2, Nutrient = "sugarG", ReferenceAmount = 4, VisualName = "viên đường" },
-                new NutritionVisualRule { Id = 3, Nutrient = "proteinG", ReferenceAmount = 6, VisualName = "quả trứng" },
-                new NutritionVisualRule { Id = 4, Nutrient = "fatG", ReferenceAmount = 14, VisualName = "thìa dầu" },
-                new NutritionVisualRule { Id = 5, Nutrient = "saturatedFatG", ReferenceAmount = 5, VisualName = "miếng bơ" },
-                new NutritionVisualRule { Id = 6, Nutrient = "fiberG", ReferenceAmount = 4, VisualName = "quả táo" },
-                new NutritionVisualRule { Id = 7, Nutrient = "sodiumMg", ReferenceAmount = 400, VisualName = "thìa muối" },
-                new NutritionVisualRule { Id = 8, Nutrient = "cholesterolMg", ReferenceAmount = 186, VisualName = "lòng đỏ trứng" }
+                new NutritionVisualRule { Id = 1, Nutrient = "carbohydrateG", ReferenceAmount = 15, VisualName = "lát bánh mì", CreatedAt = DateTime.Now  },
+                new NutritionVisualRule { Id = 2, Nutrient = "sugarG", ReferenceAmount = 4, VisualName = "viên đường", CreatedAt = DateTime.Now  },
+                new NutritionVisualRule { Id = 3, Nutrient = "proteinG", ReferenceAmount = 6, VisualName = "quả trứng" , CreatedAt = DateTime.Now },
+                new NutritionVisualRule { Id = 4, Nutrient = "fatG", ReferenceAmount = 14, VisualName = "thìa dầu" , CreatedAt = DateTime.Now },
+                new NutritionVisualRule { Id = 5, Nutrient = "saturatedFatG", ReferenceAmount = 5, VisualName = "miếng bơ" , CreatedAt = DateTime.Now },
+                new NutritionVisualRule { Id = 6, Nutrient = "fiberG", ReferenceAmount = 4, VisualName = "quả táo" , CreatedAt = DateTime.Now },
+                new NutritionVisualRule { Id = 7, Nutrient = "sodiumMg", ReferenceAmount = 400, VisualName = "thìa muối" , CreatedAt = DateTime.Now },
+                new NutritionVisualRule { Id = 8, Nutrient = "cholesterolMg", ReferenceAmount = 186, VisualName = "lòng đỏ trứng" , CreatedAt = DateTime.Now }
             );
 
 modelBuilder.Entity<NutritionExcerciseRule>().HasData(

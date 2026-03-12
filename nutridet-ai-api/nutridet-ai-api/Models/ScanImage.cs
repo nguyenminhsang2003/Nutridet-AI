@@ -26,7 +26,8 @@ namespace nutridet_ai_api.Models
         [MaxLength(10)]
         public string? ConfidenceStatus { get; set; }
 
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        [Column(TypeName = "timestamp without time zone")]
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         public bool IsDelete { get; set; } = true;
 

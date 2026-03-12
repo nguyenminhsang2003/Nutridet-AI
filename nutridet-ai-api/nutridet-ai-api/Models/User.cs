@@ -18,7 +18,8 @@ namespace nutridet_ai_api.Models
         [MaxLength(150)]
         public string? Name { get; set; }
 
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        [Column(TypeName = "timestamp without time zone")]
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         public ICollection<ScanImage> ScanImages { get; set; } = new List<ScanImage>();
     }

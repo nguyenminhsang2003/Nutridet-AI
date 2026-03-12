@@ -38,7 +38,8 @@ namespace nutridet_ai_api.Models
         [Column(TypeName = "numeric(10,2)")]
         public decimal? CholesterolMg { get; set; }
 
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        [Column(TypeName = "timestamp without time zone")] 
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         public ScanImage ScanImage { get; set; }
         public ICollection<OutputNutritionVisual> OutputNutritionVisuals { get; set; } = new List<OutputNutritionVisual>();
