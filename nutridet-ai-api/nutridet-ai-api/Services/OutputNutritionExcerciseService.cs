@@ -33,7 +33,7 @@ namespace nutridet_ai_api.Services
             {
                 throw new NotImplementedException();
             }
-            if (! await _scanImageRepository.SoftDeleteAsync(scanImageId))
+            if (! await _scanImageRepository.ChangeDeleteAsync(scanImageId))
             {
                 throw new NotImplementedException();
             }
@@ -67,14 +67,18 @@ namespace nutridet_ai_api.Services
                 var nutritionVisualRule = listNutritionExcerciseRule.FirstOrDefault(a => a.Nutrient == item.Name);
                 if (nutritionVisualRule == null) continue;
 
-                var outputNutritionVisual = new OutputNutritionExcercise();
-                outputNutritionVisual.OutputNutritionId = outputNutritionId;
-                outputNutritionVisual.Nutrient = item.Name;
-                outputNutritionVisual.OriginalValue = item.Value as decimal?;
-                outputNutritionVisual.Excercise = nutritionVisualRule.Excercise;
-                outputNutritionVisual.ExcerciseValue = outputNutritionVisual.OriginalValue / nutritionVisualRule.ReferenceAmount;
+                var outputNutritionExcercise = new OutputNutritionExcercise();
+                outputNutritionExcercise.OutputNutritionId = outputNutritionId;
+                outputNutritionExcercise.Nutrient = item.Name;
+                outputNutritionExcercise.OriginalValue = item.Value as decimal?;
 
-                var itemResult = await _outputNutritionExcerciseReponsitory.SaveOutputNutritionExcerciseAsync(outputNutritionVisual);
+                if (outputNutritionExcercise.OriginalValue == null || outputNutritionExcercise.OriginalValue <= 0) continue;
+
+                outputNutritionExcercise.Excercise = nutritionVisualRule.Excercise;
+                outputNutritionExcercise.ExcerciseValue = outputNutritionExcercise.OriginalValue / nutritionVisualRule.ReferenceAmount;
+                if(outputNutritionExcercise.ExcerciseValue == null || outputNutritionExcercise.ExcerciseValue <= 0) continue;
+
+                var itemResult = await _outputNutritionExcerciseReponsitory.SaveOutputNutritionExcerciseAsync(outputNutritionExcercise);
                 listResults.Add(new OutputNutritionExcerciseDto()
                 {
                     Nutrient = itemResult.Nutrient,

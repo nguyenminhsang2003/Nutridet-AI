@@ -64,14 +64,14 @@ namespace nutridet_ai_api.Repositories
             }
         }
 
-        public async Task<bool> SoftDeleteAsync(int scanImageId)
+        public async Task<bool> ChangeDeleteAsync(int scanImageId)
         {
             var scanImage = await _context.ScanImages.FirstOrDefaultAsync(s => s.ScanImageId == scanImageId);
             if (scanImage == null)
             {
                 return false;
             }
-            scanImage.IsDelete = true;
+            scanImage.IsDelete = false;
             await _context.SaveChangesAsync();
             return true;
         }

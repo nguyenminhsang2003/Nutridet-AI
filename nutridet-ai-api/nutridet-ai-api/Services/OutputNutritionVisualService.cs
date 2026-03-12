@@ -45,8 +45,11 @@ namespace nutridet_ai_api.Services
                 outputNutritionVisual.OutputNutritionId = outputNutritionId;
                 outputNutritionVisual.Nutrient = item.Name;
                 outputNutritionVisual.OriginalValue = item.Value as decimal?;
+                if (outputNutritionVisual.OriginalValue == null || outputNutritionVisual.OriginalValue <= 0) continue;
+
                 outputNutritionVisual.VisualName = nutritionVisualRule.VisualName;
                 outputNutritionVisual.VisualValue = outputNutritionVisual.OriginalValue / nutritionVisualRule.ReferenceAmount;
+                if (outputNutritionVisual.VisualValue == null || outputNutritionVisual.VisualValue <= 0) continue;
 
                 var itemResult = await _outputNutritionVisualReponsitory.SaveOutputNutritionVisualAsync(outputNutritionVisual);
                 listResults.Add(new OutputNutritionVisualDto()

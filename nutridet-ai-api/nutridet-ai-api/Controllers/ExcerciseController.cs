@@ -18,11 +18,11 @@ namespace nutridet_ai_api.Controllers
             _outputNutritionRepository = outputNutritionRepository;
         }
         [HttpPost("create-excercise")]
-        public async Task<IActionResult> CreateExcercise([FromQuery] int OutputNutritionId)
+        public async Task<IActionResult> CreateExcercise([FromQuery] int scanImageId, [FromQuery] int OutputNutritionId)
         {
-            if (OutputNutritionId <= 0)
+            if (scanImageId <=0 || OutputNutritionId <= 0)
             {
-                return BadRequest(new { message = "OutputNutritionId not valid." });
+                return BadRequest(new { message = "OutputNutritionId and scanImageId not valid." });
             }
 
             var outputNutrition = await _outputNutritionRepository.GetOutputNutritionsByIdAsync(OutputNutritionId);
@@ -31,7 +31,7 @@ namespace nutridet_ai_api.Controllers
                 return BadRequest(new { message = "outputNutrition not exit." });
             }
 
-            var listExcercise = await _outputNutritionExcerciseService.CreateExercisesAsync(OutputNutritionId);
+            var listExcercise = await _outputNutritionExcerciseService.CreateExercisesAsync(scanImageId, OutputNutritionId);
             return Ok(listExcercise);
         }
     }

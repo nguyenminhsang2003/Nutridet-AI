@@ -6,7 +6,7 @@ namespace nutridet_ai_api.Repositories.IRepositories
     {
         Task<ScanImage> SaveScanResultAsync(string imageBase64, string aiResult, int userId, string aiProvider);
         Task<ScanImage?> GetInvokeAsync(int scanImageId);
-        Task<bool> SoftDeleteAsync(int scanImageId);
+        Task<bool> ChangeDeleteAsync(int scanImageId);
     }
 }
 
