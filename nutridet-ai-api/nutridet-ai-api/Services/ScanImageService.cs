@@ -29,14 +29,22 @@ namespace nutridet_ai_api.Services
             _userReponsitory = userReponsitory;
         }
 
-        public async Task<List<ScanImage>> GetAllInvokeAsync(int userId, DateTime? startDate, DateTime? endDate)
+        public async Task<List<ScanImage>> GetAllInvokeAsync(int userId, DateTime? startDate, DateTime? endDate, int? page, int? pageSize)
         {
             var userExit = await _userReponsitory.GetUserByIdAsync(userId);
             if (userExit == null)
             {
                 throw new NotImplementedException("user not exit");
             }
-            var listScanImage = await _scanImageRepository.GetAllScanImagesByUserIdAsync(userId, startDate, endDate);
+            if (!page.HasValue || page < 1)
+            {
+                page = 1;
+            }
+            if (!pageSize.HasValue || pageSize < 1)
+            {
+                pageSize = 1;
+            }
+            var listScanImage = await _scanImageRepository.GetAllScanImagesByUserIdAsync(userId, startDate, endDate, page.Value, pageSize.Value);
             if(!listScanImage.Any())
             {
                 throw new NotImplementedException("listScanImage is null");

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using nutridet_ai_api.Models;
 using nutridet_ai_api.Repositories.IRepositories;
+using System.Linq;
 
 namespace nutridet_ai_api.Repositories
 {
@@ -13,25 +14,6 @@ namespace nutridet_ai_api.Repositories
         {
             _context = context;
             _outputNutritionRepository = outputNutritionRepository;
-        }
-
-        public async Task<ScanImage?> GetInvokeAsync(int scanImageId)
-        {
-            return await _context.ScanImages.AsNoTracking()
-                                            .Where(s => s.ScanImageId == scanImageId)
-                                            .Select(s => new ScanImage
-                                            {
-                                                ScanImageId = s.ScanImageId,
-                                                ImageUrl = s.ImageUrl,
-                                                CreatedAt = s.CreatedAt,
-                                                User = s.User,
-                                                OutputNutrition = new OutputNutrition
-                                                {
-                                                    OutputNutritionVisuals = s.OutputNutrition.OutputNutritionVisuals,
-                                                    OutputNutritionExcercises = s.OutputNutrition.OutputNutritionExcercises
-                                                }
-                                            })
-                                            .FirstOrDefaultAsync();
         }
 
         public async Task<ScanImage> SaveScanResultAsync(string imageBase64, string aiResult, int userId, string aiProvider)
@@ -75,7 +57,26 @@ namespace nutridet_ai_api.Repositories
             return true;
         }
 
-        public async Task<List<ScanImage>> GetAllScanImagesByUserIdAsync(int userId, DateTime? startDate, DateTime? endDate)
+        public async Task<ScanImage?> GetInvokeAsync(int scanImageId)
+        {
+            return await _context.ScanImages.AsNoTracking()
+                                            .Where(s => s.ScanImageId == scanImageId)
+                                            .Select(s => new ScanImage
+                                            {
+                                                ScanImageId = s.ScanImageId,
+                                                ImageUrl = s.ImageUrl,
+                                                CreatedAt = s.CreatedAt,
+                                                User = s.User,
+                                                OutputNutrition = new OutputNutrition
+                                                {
+                                                    OutputNutritionVisuals = s.OutputNutrition.OutputNutritionVisuals,
+                                                    OutputNutritionExcercises = s.OutputNutrition.OutputNutritionExcercises
+                                                }
+                                            })
+                                            .FirstOrDefaultAsync();
+        }
+
+        public async Task<List<ScanImage>> GetAllScanImagesByUserIdAsync(int userId, DateTime? startDate, DateTime? endDate, int page, int pageSize)
         {
             var query = _context.ScanImages.AsNoTracking().Where(s => s.UserId == userId);
             if (startDate.HasValue)
@@ -87,6 +88,12 @@ namespace nutridet_ai_api.Repositories
             {
                 query = query.Where(s => s.CreatedAt <= endDate.Value);
             }
+
+            query = query
+                    .OrderByDescending(s => s.CreatedAt)
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize);
+
             return await query.Select(s => new ScanImage
                                         {
                                             ScanImageId = s.ScanImageId,
