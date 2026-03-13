@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using nutridet_ai_api.Models;
-using nutridet_ai_api.Services.IService;
 using nutridet_ai_api.Repositories.IRepositories;
+using nutridet_ai_api.Services.IService;
 
 namespace nutridet_ai_api.Controllers
 {
@@ -17,6 +18,7 @@ namespace nutridet_ai_api.Controllers
             _outputNutritionExcerciseService = outputNutritionExcerciseService;
             _outputNutritionRepository = outputNutritionRepository;
         }
+        [Authorize]
         [HttpPost("create-excercise")]
         public async Task<IActionResult> CreateExcercise([FromQuery] int scanImageId, [FromQuery] int OutputNutritionId)
         {

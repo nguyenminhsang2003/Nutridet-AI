@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
+using nutridet_ai_api.DTO;
 using nutridet_ai_api.Services.IService;
 using System.Security.Claims;
 
@@ -18,7 +18,7 @@ namespace nutridet_ai_api.Controllers
         }
 
         [HttpPost("login")]
-        public IActionResult Login(LoginRequest request)
+        public IActionResult Login([FromBody] LoginRequest request)
         {
             if (request.Username == "admin" && request.Password == "123")
             {
@@ -30,13 +30,19 @@ namespace nutridet_ai_api.Controllers
                 });
             }
 
-            return Unauthorized();
+            return Unauthorized("Username hoặc Password sai");
         }
         [Authorize]
         [HttpGet("profile")]
         public IActionResult GetProfile()
         {
-            var userId = User.FindFirst("userId")?.Value;
+            var userIdClaim = User.FindFirst("userId")?.Value;
+
+            if (!int.TryParse(userIdClaim, out int userId) || userId <= 0)
+            {
+                return Unauthorized(new { message = "userId is invalid" });
+            }
+
             var role = User.FindFirst(ClaimTypes.Role)?.Value;
 
             return Ok(new
@@ -45,10 +51,5 @@ namespace nutridet_ai_api.Controllers
                 role = role
             });
         }
-    }
-    public class LoginRequest
-    {
-        public string Username { get; set; }
-        public string Password { get; set; }
     }
 }

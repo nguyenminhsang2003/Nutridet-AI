@@ -1,0 +1,13 @@
+﻿namespace nutridet_ai_api.DTO
+{
+    public class LoginRequest
+    {
+        public string Username { get; set; }
+        public string Password { get; set; }
+    }
+    public class FilterInvoke
+    {
+        public DateTime? startDate { get; set; }
+        public DateTime? endDate { get; set; }
+    }
+}

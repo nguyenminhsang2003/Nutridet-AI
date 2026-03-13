@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using nutridet_ai_api.Services.IService;
 
 namespace nutridet_ai_api.Controllers
@@ -14,19 +15,22 @@ namespace nutridet_ai_api.Controllers
             _scanImageService = scanImageService;
         }
 
+        [Authorize]
         [HttpPost("upload")]
-        public async Task<IActionResult> UploadImage(IFormFile file, [FromQuery] int? userId = null)
+        public async Task<IActionResult> UploadImage(IFormFile file)
         {
+            // Validate userId
+            var userIdClaim = User.FindFirst("userId")?.Value;
+
+            if (!int.TryParse(userIdClaim, out int userId) || userId <= 0)
+            {
+                return Unauthorized(new { message = "userId is invalid" });
+            }
+
             // Validate file exists (basic check to avoid null reference)
             if (file == null || file.Length == 0)
             {
                 return BadRequest(new { message = "No file uploaded." });
-            }
-
-            // Validate userId
-            if (!userId.HasValue || userId.Value <= 0)
-            {
-                return BadRequest(new { message = "UserId is required and must be greater than 0." });
             }
 
             // Convert file to base64 string
@@ -37,7 +41,7 @@ namespace nutridet_ai_api.Controllers
             var imageDataString = $"data:{file.ContentType};base64,{base64String}";
 
             // Pass base64 string and userId to service
-            var result = await _scanImageService.ScanImageAsync(imageDataString, userId.Value);
+            var result = await _scanImageService.ScanImageAsync(imageDataString, userId);
             return Ok(result);
         }
     }
