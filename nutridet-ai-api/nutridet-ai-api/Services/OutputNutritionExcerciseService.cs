@@ -90,5 +90,9 @@ namespace nutridet_ai_api.Services
 
             return listResults;
         }
+        public async Task<bool> ChangeIsDoneAsync(int id)
+        {
+            return await _outputNutritionExcerciseReponsitory.ChangeIsDoneAsync(id);
+        }
     }
 }

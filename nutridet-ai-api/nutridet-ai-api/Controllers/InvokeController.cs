@@ -38,7 +38,7 @@ namespace nutridet_ai_api.Controllers
             {
                 return BadRequest(new { message = "startDate is bigger than endDate" });
             } 
-            var listInvoke = await _scanImageService.GetAllInvokeAsync(userId, filterInvoke.startDate, filterInvoke.endDate);
+            var listInvoke = await _scanImageService.GetAllInvokeAsync(userId, filterInvoke.startDate, filterInvoke.endDate, filterInvoke.page, filterInvoke.pageSize);
             if (listInvoke == null) return BadRequest( new { message = "listInvoke is null" });
             return Ok(listInvoke);
         }

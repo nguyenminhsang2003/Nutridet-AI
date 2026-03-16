@@ -36,5 +36,22 @@ namespace nutridet_ai_api.Controllers
             var listExcercise = await _outputNutritionExcerciseService.CreateExercisesAsync(scanImageId, OutputNutritionId);
             return Ok(listExcercise);
         }
+        [Authorize]
+        [HttpPatch("update-isDone")]
+        public async Task<IActionResult> ChangeIsDone([FromQuery] int outputNutritionExcerciseId)
+        {
+            if(outputNutritionExcerciseId <= 0)
+            {
+                return BadRequest(new { message = "OutputNutritionId and scanImageId not valid." });
+            }
+            if (!await _outputNutritionExcerciseService.ChangeIsDoneAsync(outputNutritionExcerciseId))
+            {
+                return BadRequest(new { message = "Can not update." });
+            }
+            else
+            {
+                return Ok(new { message = "Update successfull." });
+            }
+        }
     }
 }
