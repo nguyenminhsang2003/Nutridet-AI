@@ -78,6 +78,8 @@ namespace nutridet_ai_api.Services
                 outputNutritionExcercise.ExcerciseValue = outputNutritionExcercise.OriginalValue / nutritionVisualRule.ReferenceAmount;
                 if(outputNutritionExcercise.ExcerciseValue == null || outputNutritionExcercise.ExcerciseValue <= 0) continue;
 
+                outputNutritionExcercise.Unit = nutritionVisualRule.Unit;
+
                 var itemResult = await _outputNutritionExcerciseReponsitory.SaveOutputNutritionExcerciseAsync(outputNutritionExcercise);
                 listResults.Add(new OutputNutritionExcerciseDto()
                 {
@@ -85,6 +87,7 @@ namespace nutridet_ai_api.Services
                     OriginalValue = itemResult.OriginalValue,
                     Excercise = itemResult.Excercise,
                     ExcerciseValue = itemResult.ExcerciseValue,
+                    Unit = itemResult.Unit
                 });
             }
 

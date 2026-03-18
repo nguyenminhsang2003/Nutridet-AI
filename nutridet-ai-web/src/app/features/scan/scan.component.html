@@ -1,21 +1,53 @@
 <div class="upload-container">
-  <input type="file" accept="image/*" (change)="onFileSelected($event)" #fileInput style="display: none">
 
-  <button type="button" (click)="fileInput.click()" class="btn-upload">
-    Chọn ảnh từ máy tính
-  </button>
+  <div class="card">
+    <h2>📸 Phân tích dinh dưỡng</h2>
 
-  <div class="preview-area" *ngIf="imagePreview">
-    <img [src]="imagePreview" alt="Preview" class="img-fluid">
-  </div>
+    <input type="file" accept="image/*" (change)="onFileSelected($event)" #fileInput hidden>
 
-  <div *ngIf="imagePreview">
-    <button type="button" (click)="save()" class="btn-analyze">
+    <button type="button" (click)="fileInput.click()" class="btn primary">
+      Chọn ảnh
+    </button>
+
+    <div class="preview-area" *ngIf="imagePreview">
+      <img [src]="imagePreview" alt="Preview">
+    </div>
+
+    <button *ngIf="imagePreview" (click)="save()" class="btn success">
       Phân tích ảnh
     </button>
-    <div *ngIf="resultText" class="result-box">
-      {{ resultText | json}}
-    </div>
-  </div>
 
+    <div *ngIf="resultText" class="result-box">
+      <h4>Kết quả phân tích</h4>
+      <pre>{{ resultText | json }}</pre>
+    </div>
+
+    <button *ngIf="resultText" (click)="makeExcercise()" class="btn warning">
+      Tạo bài tập
+    </button>
+
+    <div *ngIf="resultExcercise" class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Bài tập</th>
+            <th>Khối lượng</th>
+            <th>Đơn vị</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let e of resultExcercise">
+            <td>{{ e.Excercise }}</td>
+            <td>{{ e.ExcerciseValue }}</td>
+            <td>{{ e.Unit }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <button *ngIf="resultExcercise" (click)="viewInvoke()" class="btn dark">
+      Xem hóa đơn
+    </button>
+
+  </div>
 </div>

@@ -9,5 +9,6 @@
         public string Excercise { get; set; }
 
         public decimal? ExcerciseValue { get; set; }
+        public string Unit { get; set; }
     }
 }

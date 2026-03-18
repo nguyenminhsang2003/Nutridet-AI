@@ -18,6 +18,7 @@ export class ScanComponent {
   selectedFile: File | null = null;
 
   resultText: any;
+  resultExcercise: any;
 
   onFileSelected(event: Event): void {
 
@@ -67,5 +68,11 @@ export class ScanComponent {
         alert('Upload thất bại');
       }
     });
+  }
+  makeExcercise(){
+    
+  }
+  viewInvoke(){
+
   }
 }

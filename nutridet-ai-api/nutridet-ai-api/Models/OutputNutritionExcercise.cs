@@ -23,6 +23,9 @@ namespace nutridet_ai_api.Models
         [Column(TypeName = "numeric(10,2)")]
         public decimal? ExcerciseValue { get; set; }
 
+        [StringLength(50)]
+        public string Unit { get; set; }
+
         public bool IsDone { get; set; } = false;
 
         public OutputNutrition OutputNutrition { get; set; }

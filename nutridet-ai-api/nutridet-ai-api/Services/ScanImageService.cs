@@ -42,7 +42,7 @@ namespace nutridet_ai_api.Services
             }
             if (!pageSize.HasValue || pageSize < 1)
             {
-                pageSize = 1;
+                pageSize = 10;
             }
             var listScanImage = await _scanImageRepository.GetAllScanImagesByUserIdAsync(userId, startDate, endDate, page.Value, pageSize.Value);
             if(!listScanImage.Any())
@@ -51,7 +51,7 @@ namespace nutridet_ai_api.Services
             }
             return listScanImage;
         }
-
+         
         public async Task<ScanImage?> GetInvokeAsync(int scanImageId)
         {
             return await _scanImageRepository.GetInvokeAsync(scanImageId);

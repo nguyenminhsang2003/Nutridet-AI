@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using nutridet_ai_api.Models;
@@ -11,9 +12,11 @@ using nutridet_ai_api.Models;
 namespace nutridet_ai_api.Migrations
 {
     [DbContext(typeof(NutridetAiDbContext))]
-    partial class NutridetAiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260318014308_updateExcersice")]
+    partial class updateExcersice
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -163,11 +166,6 @@ namespace nutridet_ai_api.Migrations
 
                     b.Property<int>("OutputNutritionId")
                         .HasColumnType("integer");
-
-                    b.Property<string>("Unit")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
 
                     b.HasKey("Id");
 
