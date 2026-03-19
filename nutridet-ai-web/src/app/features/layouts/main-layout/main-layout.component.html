@@ -1,0 +1,57 @@
+<div class="app-container d-flex vh-100 overflow-hidden">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar d-flex flex-column">
+
+    <!-- BRAND -->
+    <div class="brand d-flex align-items-center gap-3">
+      <div class="brand-logo d-flex align-items-center justify-content-center">
+        <i class="bi bi-heart-pulse"></i>
+      </div>
+      <span class="brand-name">NUTRIDET</span>
+    </div>
+
+    <!-- DIVIDER -->
+    <div class="divider"></div>
+
+    <!-- NAVIGATION -->
+    <nav class="navigation flex-grow-1">
+      <p class="nav-label">HỆ THỐNG</p>
+
+      <a routerLink="/scan" routerLinkActive="active" class="nav-link">
+        <i class="bi bi-camera"></i>
+        <span>Quét thực phẩm</span>
+      </a>
+
+      <a routerLink="/dashboard" routerLinkActive="active" class="nav-link">
+        <i class="bi bi-bar-chart-line"></i>
+        <span>Thống kê chi tiết</span>
+      </a>
+    </nav>
+
+    <!-- DIVIDER -->
+    <div class="divider"></div>
+
+    <!-- PROFILE -->
+    <div class="user-profile">
+      <div class="profile-card">
+
+        <div class="profile-info">
+          <p class="name">Sáng Nguyễn</p>
+          <p class="status">Premium Member</p>
+          <button>Logout</button>
+        </div>
+
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content flex-grow-1">
+    <div class="container-fluid">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+
+</div>
