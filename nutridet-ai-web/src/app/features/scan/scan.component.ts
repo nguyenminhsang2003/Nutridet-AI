@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
@@ -12,6 +13,7 @@ import { environment } from '../../../environments/environment';
 })
 export class ScanComponent {
 
+  private router = inject(Router);  
   private http = inject(HttpClient);
 
   imagePreview: string | ArrayBuffer | null = null;
@@ -19,6 +21,8 @@ export class ScanComponent {
 
   resultText: any;
   resultExcercise: any;
+  scanImageId : any;
+  outputNutritionId: any;
 
   onFileSelected(event: Event): void {
 
@@ -62,6 +66,8 @@ export class ScanComponent {
       next: (res) => {
         console.log('Upload thành công', res);
         this.resultText = res;
+        this.scanImageId = this.resultText?.scanImageId;
+        this.outputNutritionId = this.resultText?.outputNutritionId;
       },
       error: (err) => {
         console.error(err);
@@ -69,10 +75,27 @@ export class ScanComponent {
       }
     });
   }
-  makeExcercise(){
-    
-  }
-  viewInvoke(){
 
+  makeExcercise(){
+    if (!this.resultText) return;
+
+    this.http.post(
+      `${environment.apiUrl}/excercise/create-excercise?scanImageId=${this.scanImageId}&OutputNutritionId=${this.outputNutritionId}`,
+      {}
+    ).subscribe({
+      next: (res) => {
+        console.log('Exercise created', res);
+        this.resultExcercise = res;
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    });
   }
+
+  viewInvoke(){
+    if (!this.scanImageId) return;
+    this.router.navigate(['/invoke', this.scanImageId]);    
+  }
+  
 }

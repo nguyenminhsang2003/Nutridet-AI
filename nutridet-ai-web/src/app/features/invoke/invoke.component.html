@@ -1,0 +1,52 @@
+<div *ngIf="loading">Đang tải dữ liệu...</div>
+
+<div class="invoke-container" *ngIf="data">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div>
+      <h3>Health Invoice</h3>
+      <span class="time">
+        {{ data.CreatedAt | date:'dd/MM/yyyy HH:mm' }}
+      </span>
+    </div>
+  </div>
+
+  <!-- IMAGE -->
+  <div class="image">
+    <img [src]="data.ImageUrl" alt="food">
+  </div>
+
+  <!-- NUTRITION -->
+  <div class="section">
+    <div class="row" *ngFor="let v of data.OutputNutrition?.OutputNutritionVisuals">
+      <span class="label">{{ v.Name }}</span>
+      <span class="value" [class.high]="v.Value > 30">
+        {{ v.VisualName }} {{ v.VisualValue }}
+      </span>
+    </div>
+  </div>
+
+  <!-- WORKOUT -->
+  <div class="section">
+    <div class="title">Workout</div>
+
+    <div class="row" *ngFor="let e of data.OutputNutrition?.OutputNutritionExcercises">
+
+      <div class="left">
+        <input 
+          type="checkbox"
+          [disabled]="e.isDone"
+        />
+
+        <span [class.done]="e.completed">
+          {{ e.Excercise }}
+        </span>
+      </div>
+
+      <span class="value" [class.done]="e.completed">
+        {{ e.ExcerciseValue }} {{ e.Unit }}
+      </span>
+
+    </div>
+</div>
