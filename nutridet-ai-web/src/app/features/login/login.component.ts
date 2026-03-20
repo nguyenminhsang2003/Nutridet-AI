@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -33,15 +34,17 @@ export class LoginComponent {
 
     this.isLoading = true;
 
-    this.http.post<any>('https://localhost:5001/api/auth/login', {
-      username: this.username,
-      password: this.password
-    }).subscribe({
+    this.http.post<{ token: string }>(
+      `${environment.apiUrl}/login`,
+      {
+        username: this.username,
+        password: this.password
+      }
+    ).subscribe({
       next: (res) => {
-        // lưu token
         localStorage.setItem('token', res.token);
-
-        // redirect
+        this.username = '';
+        this.password = '';
         this.router.navigate(['/']);
       },
       error: (err) => {
@@ -50,6 +53,8 @@ export class LoginComponent {
         } else {
           this.error = 'Có lỗi xảy ra, thử lại sau';
         }
+
+        this.password = '';
         this.isLoading = false;
       },
       complete: () => {

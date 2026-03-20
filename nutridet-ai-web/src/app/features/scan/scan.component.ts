@@ -60,7 +60,7 @@ export class ScanComponent {
     formData.append('file', this.selectedFile);
 
     this.http.post(
-      `${environment.apiUrl}/scan-image/upload?userId=1`,
+      `${environment.apiUrl}/scan-image/upload`,
       formData
     ).subscribe({
       next: (res) => {
@@ -70,8 +70,12 @@ export class ScanComponent {
         this.outputNutritionId = this.resultText?.outputNutritionId;
       },
       error: (err) => {
-        console.error(err);
-        alert('Upload thất bại');
+        if (err.status === 401) {
+          this.router.navigate(['/login']);
+        }else{
+          console.error(err);
+          alert('Upload thất bại');
+        }
       }
     });
   }
@@ -97,5 +101,5 @@ export class ScanComponent {
     if (!this.scanImageId) return;
     this.router.navigate(['/invoke', this.scanImageId]);    
   }
-  
+
 }
