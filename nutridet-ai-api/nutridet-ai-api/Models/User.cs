@@ -18,6 +18,9 @@ namespace nutridet_ai_api.Models
         [MaxLength(150)]
         public string? Name { get; set; }
 
+        [MaxLength(20)]
+        public string? Role { get; set; }
+
         [Column(TypeName = "timestamp without time zone")]
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 

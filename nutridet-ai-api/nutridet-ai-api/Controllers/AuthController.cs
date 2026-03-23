@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using nutridet_ai_api.DTO;
 using nutridet_ai_api.Services.IService;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace nutridet_ai_api.Controllers
 {
@@ -11,18 +12,21 @@ namespace nutridet_ai_api.Controllers
     public class AuthController : Controller
     {
         private readonly IJwtService _jwtService;
+        private readonly IUserService _userService;
 
-        public AuthController(IJwtService jwtService)
+        public AuthController(IJwtService jwtService, IUserService userService)
         {
             _jwtService = jwtService;
+            _userService = userService;
         }
 
         [HttpPost("login")]
-        public IActionResult Login([FromBody] LoginRequest request)
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
-            if (request.Username == "admin" && request.Password == "123")
+            var userCheck = await _userService.LoginAsync(request.Email, request.Password);
+            if (userCheck.Result)
             {
-                var token = _jwtService.GenerateToken(1, "admin");
+                var token = _jwtService.GenerateToken(userCheck.User.UserId, userCheck.User.Role ?? "user");
 
                 return Ok(new
                 {

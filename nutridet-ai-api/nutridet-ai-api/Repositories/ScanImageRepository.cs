@@ -29,7 +29,7 @@ namespace nutridet_ai_api.Repositories
                     ImageUrl = imageUrl,
                     AiProvider = aiProvider,
                     RawTextResponse = aiResult,
-                    CreatedAt = DateTime.UtcNow
+                    CreatedAt = DateTime.Now
                 };
 
                 _context.ScanImages.Add(scanImage);

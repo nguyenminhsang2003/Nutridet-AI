@@ -14,7 +14,7 @@ import { environment } from '../../../environments/environment';
 })
 export class LoginComponent {
 
-  username: string = '';
+  email: string = '';
   password: string = '';
   error: string = '';
   isLoading: boolean = false;
@@ -27,7 +27,7 @@ export class LoginComponent {
   login() {
     this.error = '';
 
-    if (!this.username || !this.password) {
+    if (!this.email || !this.password) {
       this.error = 'Vui lòng nhập đầy đủ thông tin';
       return;
     }
@@ -37,13 +37,13 @@ export class LoginComponent {
     this.http.post<{ token: string }>(
       `${environment.apiUrl}/login`,
       {
-        username: this.username,
+        email: this.email,
         password: this.password
       }
     ).subscribe({
       next: (res) => {
         localStorage.setItem('token', res.token);
-        this.username = '';
+        this.email = '';
         this.password = '';
         this.router.navigate(['/']);
       },

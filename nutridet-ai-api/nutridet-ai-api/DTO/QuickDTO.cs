@@ -1,9 +1,16 @@
-﻿namespace nutridet_ai_api.DTO
+﻿using nutridet_ai_api.Models;
+
+namespace nutridet_ai_api.DTO
 {
     public class LoginRequest
     {
-        public string Username { get; set; }
+        public string Email { get; set; }
         public string Password { get; set; }
+    }
+    public class LoginResponse
+    {
+        public bool Result { get; set; }
+        public User? User { get; set; }
     }
     public class FilterInvoke
     {

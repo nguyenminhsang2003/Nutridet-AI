@@ -81,7 +81,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngularApp", policy =>
     {
-        policy.WithOrigins("http://localhost:57450")
+        policy.WithOrigins("http://localhost:53935")
               .AllowAnyHeader()
               .AllowAnyMethod()
               .AllowCredentials();
@@ -103,6 +103,7 @@ builder.Services.AddScoped<IGeminiService, GeminiService>();
 builder.Services.AddScoped<IOutputNutritionVisualService, OutputNutritionVisualService>();
 builder.Services.AddScoped<IOutputNutritionExcerciseService, OutputNutritionExcerciseService>();
 builder.Services.AddScoped<IJwtService, JwtService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 
 var app = builder.Build();

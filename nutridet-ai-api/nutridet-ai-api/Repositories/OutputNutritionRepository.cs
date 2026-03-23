@@ -38,7 +38,7 @@ namespace nutridet_ai_api.Repositories
                 FiberG = nutrition?.fiberG,
                 SodiumMg = nutrition?.sodiumMg,
                 CholesterolMg = nutrition?.cholesterolMg,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.Now
             };
 
             _context.OutputNutritions.Add(outputNutrition);

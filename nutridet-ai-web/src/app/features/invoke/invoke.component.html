@@ -5,48 +5,35 @@
   <!-- HEADER -->
   <div class="header">
     <div>
-      <h3>Health Invoice</h3>
+      <h3>Hóa đơn sức khỏe</h3>
       <span class="time">
-        {{ data.CreatedAt | date:'dd/MM/yyyy HH:mm' }}
+        {{ data.createdAt | date:'dd/MM/yyyy HH:mm' }}
       </span>
     </div>
   </div>
 
   <!-- IMAGE -->
   <div class="image">
-    <img [src]="data.ImageUrl" alt="food">
+    <img [src]="data.imageUrl">
   </div>
 
   <!-- NUTRITION -->
   <div class="section">
-    <div class="row" *ngFor="let v of data.OutputNutrition?.OutputNutritionVisuals">
-      <span class="label">{{ v.Name }}</span>
-      <span class="value" [class.high]="v.Value > 30">
-        {{ v.VisualName }} {{ v.VisualValue }}
-      </span>
+    <div class="title">Lượng đồ tiêu thụ</div>
+    <div class="row" *ngFor="let v of data.outputNutrition?.outputNutritionVisuals">
+      <span>{{ v.visualValue }}</span>
+      <span>{{ v.visualName }}</span>
     </div>
   </div>
 
   <!-- WORKOUT -->
   <div class="section">
-    <div class="title">Workout</div>
-
-    <div class="row" *ngFor="let e of data.OutputNutrition?.OutputNutritionExcercises">
-
+    <div class="title">Bài tập</div>
+    <div class="row" *ngFor="let e of data.outputNutrition?.outputNutritionExcercises">
       <div class="left">
-        <input 
-          type="checkbox"
-          [disabled]="e.isDone"
-        />
-
-        <span [class.done]="e.completed">
-          {{ e.Excercise }}
-        </span>
+        <input type="checkbox" [disabled]="e.isDone"/>
+        <span> {{ e.excercise }} </span>
+        <span>{{ e.excerciseValue }} {{ e.unit }}</span>
       </div>
-
-      <span class="value" [class.done]="e.completed">
-        {{ e.ExcerciseValue }} {{ e.Unit }}
-      </span>
-
     </div>
 </div>

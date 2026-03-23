@@ -15,5 +15,10 @@ namespace nutridet_ai_api.Repositories
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.UserId == userId);
         }
+
+        public async Task<User> GetUserForLoginAsync(string email, string password)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.Email == email && u.Password == password);
+        }
     }
 }
