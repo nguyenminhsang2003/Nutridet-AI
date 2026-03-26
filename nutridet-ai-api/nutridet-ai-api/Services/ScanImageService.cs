@@ -45,10 +45,6 @@ namespace nutridet_ai_api.Services
                 pageSize = 10;
             }
             var listScanImage = await _scanImageRepository.GetAllScanImagesByUserIdAsync(userId, startDate, endDate, page.Value, pageSize.Value);
-            if(!listScanImage.Any())
-            {
-                throw new NotImplementedException("listScanImage is null");
-            }
             return listScanImage;
         }
          

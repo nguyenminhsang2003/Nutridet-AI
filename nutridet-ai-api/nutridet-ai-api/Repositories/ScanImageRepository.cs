@@ -78,7 +78,7 @@ namespace nutridet_ai_api.Repositories
 
         public async Task<List<ScanImage>> GetAllScanImagesByUserIdAsync(int userId, DateTime? startDate, DateTime? endDate, int page, int pageSize)
         {
-            var query = _context.ScanImages.AsNoTracking().Where(s => s.UserId == userId);
+            var query = _context.ScanImages.AsNoTracking().Where(s => s.UserId == userId && s.IsDelete == false);
             if (startDate.HasValue)
             {
                 query = query.Where(s => s.CreatedAt >= startDate.Value);
