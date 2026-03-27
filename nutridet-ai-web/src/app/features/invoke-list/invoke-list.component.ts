@@ -89,4 +89,10 @@ export class InvokeListComponent implements OnInit {
         }
     }
 
+    getCompletion(item: any): number {
+        const exercises = item.outputNutrition?.outputNutritionExcercises;
+        if (!exercises || exercises.length === 0) return 0;
+        const done = exercises.filter((x: any) => x.isDone).length;
+        return Math.round((done / exercises.length) * 100);
+    }
 }

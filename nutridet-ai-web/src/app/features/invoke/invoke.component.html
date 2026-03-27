@@ -1,3 +1,8 @@
+<button class="btn btn-light border d-flex align-items-center gap-2 shadow-sm px-3" (click)="goBack()">
+  <i class="bi bi-arrow-left"></i>
+  <span>Quay lại</span>
+</button>
+
 <div *ngIf="loading">Đang tải dữ liệu...</div>
 
 <div class="invoke-container" *ngIf="data">
@@ -21,19 +26,21 @@
   <div class="section">
     <div class="title">Lượng đồ tiêu thụ</div>
     <div class="row" *ngFor="let v of data.outputNutrition?.outputNutritionVisuals">
-      <span>{{ v.visualValue }}</span>
-      <span>{{ v.visualName }}</span>
+      <div class="left">
+        <span>{{ v.visualValue }}</span>
+        <span>{{ v.visualName }}</span>
+      </div>
     </div>
   </div>
 
   <!-- WORKOUT -->
   <div class="section">
-    <div class="title">Bài tập</div>
+    <div class="title">Bài tập đề xuất</div>
     <div class="row" *ngFor="let e of data.outputNutrition?.outputNutritionExcercises">
       <div class="left">
-        <input type="checkbox" [disabled]="e.isDone"/>
+        <input type="checkbox" [checked]="e.isDone" (click)="ChangeIsDone(e.id)" />
         <span> {{ e.excercise }} </span>
         <span>{{ e.excerciseValue }} {{ e.unit }}</span>
       </div>
     </div>
-</div>
+  </div>
